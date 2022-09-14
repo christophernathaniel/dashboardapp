@@ -31,7 +31,7 @@ const Dashboard = () => {
   ]);
 
   async function populateDashboard() {
-    const req = await fetch("http://localhost:1337/api/dashboard", {
+    const req = await fetch("http://localhost:5000/api/dashboard", {
       headers: {
         "x-access-token": localStorage.getItem("token"),
       },
@@ -67,7 +67,7 @@ const Dashboard = () => {
   //   async function updateDashboard(event) {
   //     event.preventDefault();
 
-  //     const req = await fetch("http://localhost:1337/api/dashboard", {
+  //     const req = await fetch("http://localhost:5000/api/dashboard", {
   //       method: "POST",
   //       headers: {
   //         "Content-Type": "application/json",
@@ -96,7 +96,7 @@ const Dashboard = () => {
     newArr.splice(index, 1);
     setDashboard(newArr);
 
-    const req = await fetch("http://localhost:1337/api/dashboard", {
+    const req = await fetch("http://localhost:5000/api/dashboard", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

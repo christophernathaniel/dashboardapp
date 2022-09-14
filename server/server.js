@@ -14,14 +14,28 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const User = require("./models/user.model");
 const jwt = require("jsonwebtoken");
-
+const path = require("path");
+const PORT = process.env.PORT || 5000;
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-mongoose.connect(
-  "mongodb+srv://christophernathaniel:EKSoP1SOpfCrVVqV@cluster0.3v6wz.mongodb.net/dashboard?retryWrites=true&w=majority"
-);
+app.use(express.static(path.resolve(__dirname, "../client/build")));
+
+// app.get("*", function (request, response) {
+//   response.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
+// });
+
+mongoose
+  .connect(
+    "mongodb+srv://christophernathaniel:EKSoP1SOpfCrVVqV@cluster0.3v6wz.mongodb.net/dashboard?retryWrites=true&w=majority",
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    }
+  )
+  .then(() => console.log("MongoDB has been connected"))
+  .catch((err) => console.log(err));
 
 app.post("/api/register", async (req, res) => {
   try {
@@ -96,6 +110,6 @@ app.post("/api/dashboard", async (req, res) => {
   }
 });
 
-app.listen(1337, () => {
-  console.log("server started on 1337");
+app.listen(PORT, () => {
+  console.log(`server running on port ${PORT}`);
 });
