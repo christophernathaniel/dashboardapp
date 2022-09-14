@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/christophernathaniel/dashboardapp/issues"
   },
-  "homepage": "https://github.com/christophernathaniel/dashboardapp#readme"
+  "homepage": "https://github.com/christophernathaniel/dashboardapp#readme",
+  "dependencies": {
+    "concurrently": "^7.4.0"
+  }
 }
