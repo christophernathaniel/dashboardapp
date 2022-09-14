@@ -15,7 +15,7 @@ const mongoose = require("mongoose");
 const User = require("./models/user.model");
 const jwt = require("jsonwebtoken");
 const path = require("path");
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 36643;
 const app = express();
 app.use(cors());
 app.use(express.json());
