@@ -96,7 +96,7 @@ const Dashboard = () => {
     newArr.splice(index, 1);
     setDashboard(newArr);
 
-    const req = await fetch(window.getfetch + "/api/dashboard", {
+    const req = await fetch(window.getfetch + "api/dashboard", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
