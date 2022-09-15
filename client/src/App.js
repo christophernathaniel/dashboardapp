@@ -6,8 +6,8 @@ import Dashboard from "./Pages/Dashboard";
 import Site from "./Pages/Site";
 
 const App = () => {
-  window.getfetch = "https://nebula-finance-app.herokuapp.com/";
-  //window.getfetch = "http://localhost:8080/";
+  //window.getfetch = "https://nebula-finance-app.herokuapp.com/";
+  window.getfetch = "http://localhost:8080/";
 
   return (
     <div>
