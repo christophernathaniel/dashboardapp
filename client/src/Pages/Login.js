@@ -19,6 +19,7 @@ function Login() {
 
     if (data.user) {
       localStorage.setItem("token", data.user);
+
       alert("Login successful");
       window.location.href = "/dashboard";
     } else {

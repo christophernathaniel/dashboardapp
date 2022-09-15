@@ -18,8 +18,8 @@ const New = (props) => {
     event.preventDefault();
 
     let item = {
-      dashboard: [
-        ...props.dashboard,
+      bill: [
+        ...props.bill,
         {
           id: generateKey("dash_"),
           name: itemName,
@@ -33,7 +33,7 @@ const New = (props) => {
       ],
     };
 
-    const req = await fetch(window.getfetch + "api/dashboard", {
+    const req = await fetch(window.getfetch + "api/bill", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -42,7 +42,7 @@ const New = (props) => {
       body: JSON.stringify(item),
     });
 
-    props.handleNew(item.dashboard);
+    props.handleNew(item.bill);
 
     const data = await req.json();
 
