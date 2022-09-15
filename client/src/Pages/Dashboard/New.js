@@ -33,7 +33,7 @@ const New = (props) => {
       ],
     };
 
-    const req = await fetch("http://localhost:8080/api/dashboard", {
+    const req = await fetch(window.getfetch + "api/dashboard", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

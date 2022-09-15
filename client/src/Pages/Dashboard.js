@@ -31,7 +31,7 @@ const Dashboard = () => {
   ]);
 
   async function populateDashboard() {
-    const req = await fetch("http://localhost:8080/api/dashboard", {
+    const req = await fetch(window.getfetch + "api/dashboard", {
       headers: {
         "x-access-token": localStorage.getItem("token"),
       },
@@ -96,7 +96,7 @@ const Dashboard = () => {
     newArr.splice(index, 1);
     setDashboard(newArr);
 
-    const req = await fetch("http://localhost:8080/api/dashboard", {
+    const req = await fetch(window.getfetch + "/api/dashboard", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
