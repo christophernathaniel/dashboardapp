@@ -6,14 +6,13 @@ import Dashboard from "./Pages/Dashboard";
 import Site from "./Pages/Site";
 
 const App = () => {
-  window.getfetch = "https://nebula-finance-app.herokuapp.com/";
+  window.getfetch = "/";
   //window.getfetch = "http://localhost:8080/";
 
   return (
     <div>
       <BrowserRouter>
         <Routes>
-          <Route path="*" exact element={<Site />} />
           <Route path="/login" exact element={<Login />} />
           <Route path="/register" exact element={<Register />} />
           <Route path="/dashboard" exact element={<Dashboard />} />
