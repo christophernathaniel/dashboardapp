@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import { useNavigate } from "react-router-dom";
 import New from "./New";
 
-const Bill = (objBill) => {
+const Bill = (props) => {
   const navigate = useNavigate();
   const [bill, setBill] = useState([
     {
@@ -23,12 +23,13 @@ const Bill = (objBill) => {
     const req = await fetch(window.getfetch + "api/bill", {
       headers: {
         "x-access-token": localStorage.getItem("token"),
+        uuid: props.uuid,
       },
     });
 
     const data = await req.json();
     if (data.status === "ok") {
-      setBill(data.bill);
+      setBill(data.data.data);
     } else {
       alert(data.error);
     }
@@ -45,12 +46,12 @@ const Bill = (objBill) => {
         populateBill();
       }
     }
-  }, []);
+  }, [props.uuid]);
 
   const handleNew = (data) => {
-    console.log(data);
-    console.log(bill);
     setBill(data);
+
+    props.handleUpdate(data);
   };
 
   async function removeItem(index) {
@@ -70,31 +71,34 @@ const Bill = (objBill) => {
     const data = await req.json();
 
     if (data.status === "ok") {
-      //setDashboard(data.dashboard);
+      setBill(data.data);
     }
   }
 
   return (
     <div>
-      <h1>Bill</h1>
+      <h1>BILL</h1>
+      <div>{props.uuid}</div>
       {/* <h1>Dashboard: {dashboard || "No dashboard found"}</h1> */}
-      {bill.map((item, index) => (
-        <div key={item.uuid}>
-          <div>{item.name}</div>
-          <div>{item.pm}</div>
-          <div>{item.remaining}</div>
 
-          <button
-            onClick={() => {
-              removeItem(index);
-            }}
-          >
-            Delete
-          </button>
-        </div>
-      ))}
+      {bill &&
+        bill?.map((item, index) => (
+          <div key={item.uuid}>
+            <div>{item.name}</div>
+            <div>{item.pm}</div>
+            <div>{item.remaining}</div>
 
-      <New bill={bill} handleNew={handleNew} />
+            <button
+              onClick={() => {
+                removeItem(index);
+              }}
+            >
+              Delete
+            </button>
+          </div>
+        ))}
+
+      <New bill={bill} uuid={props.uuid} handleNew={handleNew} />
     </div>
   );
 };

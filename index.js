@@ -33,9 +33,12 @@ app.use(express.static(path.resolve(__dirname, "../client/build")));
 // ) {
 
 app.use(express.static(path.resolve(__dirname, "./client/build")));
-app.get(["/", "/login", "/register", "/dashboard"], (request, response) => {
-  response.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
-});
+app.get(
+  ["/", "/login", "/register", "/dashboard", "/card", "/bill"],
+  (request, response) => {
+    response.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
+  }
+);
 //}
 
 mongoose

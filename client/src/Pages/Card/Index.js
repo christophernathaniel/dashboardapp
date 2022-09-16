@@ -54,10 +54,7 @@ const Card = () => {
   }, []);
 
   const handleNew = (data) => {
-    console.log("----data");
-    console.log(data);
-    console.log("----card");
-    console.log(card);
+    console.log("----- card new");
     setCard([...card, data]);
   };
 
@@ -82,6 +79,23 @@ const Card = () => {
     }
   }
 
+  const handleUpdate = async (data) => {
+    let newArr = [...card];
+    let index = newArr.findIndex((x) => x.uuid === bill);
+    let dataAssign = (newArr[index].data = data); // Assign Data
+    let body = { card: dataAssign }; // For Submit
+
+    const req = await fetch(window.getfetch + "api/card/update", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": localStorage.getItem("token"),
+        uuid: bill,
+      },
+      body: JSON.stringify(body),
+    });
+  };
+
   return (
     <div>
       <h1>Card</h1>
@@ -95,7 +109,7 @@ const Card = () => {
               (() => navigate("/card/" + item.uuid), { uuid: item.uuid })
             }
           ></button> */}
-
+          <div>{item.uuid}</div>
           <button onClick={() => setBill(item.uuid)}>Open</button>
           <button
             onClick={() => {
@@ -109,7 +123,7 @@ const Card = () => {
 
       <New card={card} handleNew={handleNew} user={user} />
 
-      {bill ? <Bill objBill={bill} /> : ""}
+      {bill ? <Bill uuid={bill} handleUpdate={handleUpdate} /> : ""}
     </div>
   );
 };

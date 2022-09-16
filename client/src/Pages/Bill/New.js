@@ -10,6 +10,8 @@ const New = (props) => {
   const [itemOrder, setItemOrder] = useState();
   const [itemIncoming, setItemIncoming] = useState();
 
+  const [bill, setBill] = useState([]);
+
   const generateKey = (pre) => {
     return `${pre}_${new Date().getTime()}`;
   };
@@ -33,23 +35,24 @@ const New = (props) => {
       ],
     };
 
-    const req = await fetch(window.getfetch + "api/bill", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-access-token": localStorage.getItem("token"),
-      },
-      body: JSON.stringify(item),
-    });
+    // const req = await fetch(window.getfetch + "api/bill/create", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     "x-access-token": localStorage.getItem("token"),
+    //     uuid: props.uuid,
+    //   },
+    //   body: JSON.stringify(item),
+    // });
 
     props.handleNew(item.bill);
 
-    const data = await req.json();
+    // const data = await req.json();
 
-    if (data.status === "ok") {
-      console.log(data);
-      //setDashboard(data.dashboard);
-    }
+    // if (data.status === "ok") {
+    //   console.log(data);
+    //   //setDashboard(data.dashboard);
+    // }
   }
 
   return (

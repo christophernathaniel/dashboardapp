@@ -12,13 +12,14 @@ const New = (props) => {
   async function newItem(event) {
     event.preventDefault();
 
+    let key = generateKey("dash_");
+
     let item = {
-      id: generateKey("dash_"),
+      id: key,
+      uuid: key,
       name: itemName,
       active: itemActive,
-      data: {
-        bills: [{}],
-      },
+      data: [{}],
     };
 
     const req = await fetch(window.getfetch + "api/card/create", {

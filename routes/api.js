@@ -111,18 +111,25 @@ router.get("/card", async (req, res) => {
 });
 
 // Update
-router.post("/card", async (req, res) => {
+router.post("/card/update", async (req, res) => {
   const token = req.headers["x-access-token"];
+  const uuid = req.headers["uuid"];
+
   try {
     const decoded = jwt.verify(token, secret);
     const user_uuid = decoded.uuid;
     await Card.updateOne(
-      { user_uuid: user_uuid },
+      { uuid: uuid, user_uuid: user_uuid },
       { $set: { data: req.body.card } }
     );
 
     console.log(
-      "tried to update:" + user_uuid + ":" + user_uuid + ":" + req.body.card
+      "tried to update /card/update:" +
+        uuid +
+        ":" +
+        user_uuid +
+        ":" +
+        req.body.card
     );
 
     return res.json({ status: "ok" });
@@ -141,7 +148,7 @@ router.post("/card/create", async (req, res) => {
     const user_uuid = decoded.uuid;
 
     const card = await Card.create({
-      uuid: crypto.randomUUID(),
+      uuid: req.body.uuid,
       user_uuid: user_uuid,
       name: req.body.name,
       data: [],
@@ -185,17 +192,42 @@ router.post("/card/delete", async (req, res) => {
 // Retrieve
 router.get("/bill", async (req, res) => {
   const token = req.headers["x-access-token"];
+  const card_uuid = req.headers["uuid"];
 
   try {
     const decoded = jwt.verify(token, secret);
     const uuid = decoded.uuid;
-    const card = await Card.find({ user_uuid: uuid });
+    const card = await Card.findOne({ uuid: card_uuid, user_uuid: uuid });
 
     console.log(card);
 
-    console.log("retrieve:" + uuid);
+    console.log("retrieve:" + uuid + ":" + card_uuid);
 
     return res.json({ status: "ok", hello: "world", data: card });
+  } catch (error) {
+    console.log(error);
+    res.json({ status: "error", error: "invalid token" });
+  }
+});
+
+// Create - Redundent???
+router.post("/bill/create", async (req, res) => {
+  const token = req.headers["x-access-token"];
+  const card_uuid = req.headers["uuid"];
+
+  try {
+    const decoded = jwt.verify(token, secret);
+    const uuid = decoded.uuid;
+    await Card.updateOne(
+      { uuid: card_uuid, user_uuid: uuid },
+      { $set: { data: req.body.card } }
+    );
+
+    console.log(
+      "tried to update:" + uuid + ":" + card_uuid + ":" + req.body.card
+    );
+
+    return res.json({ status: "ok" });
   } catch (error) {
     console.log(error);
     res.json({ status: "error", error: "invalid token" });
