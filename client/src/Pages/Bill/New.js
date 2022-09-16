@@ -2,15 +2,14 @@ import React, { useState } from "react";
 
 const New = (props) => {
   const [itemName, setItemName] = useState("");
-  const [itemPm, setItemPm] = useState(0);
-  const [itemRemaining, setItemRemaining] = useState();
-  const [itemActive, setItemActive] = useState();
-  const [itemPaid, setItemPaid] = useState();
-  const [itemCategory, setItemCategory] = useState();
-  const [itemOrder, setItemOrder] = useState();
-  const [itemIncoming, setItemIncoming] = useState();
-
-  const [bill, setBill] = useState([]);
+  const [itemPm, setItemPm] = useState("");
+  const [itemRemaining, setItemRemaining] = useState("");
+  const [itemActive, setItemActive] = useState("");
+  const [itemPaid, setItemPaid] = useState("");
+  const [itemCategory, setItemCategory] = useState("");
+  const [itemOrder, setItemOrder] = useState("");
+  const [itemIncoming, setItemIncoming] = useState("");
+  const [card, setCard] = useState();
 
   const generateKey = (pre) => {
     return `${pre}_${new Date().getTime()}`;
@@ -19,11 +18,12 @@ const New = (props) => {
   async function newItem(event) {
     event.preventDefault();
 
+    let id = generateKey("dash_");
     let item = {
-      bill: [
-        ...props.bill,
+      data: [
+        ...props.bill.data,
         {
-          id: generateKey("dash_"),
+          id: id,
           name: itemName,
           remaining: itemRemaining,
           pm: itemPm,
@@ -35,24 +35,7 @@ const New = (props) => {
       ],
     };
 
-    // const req = await fetch(window.getfetch + "api/bill/create", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     "x-access-token": localStorage.getItem("token"),
-    //     uuid: props.uuid,
-    //   },
-    //   body: JSON.stringify(item),
-    // });
-
-    props.handleNew(item.bill);
-
-    // const data = await req.json();
-
-    // if (data.status === "ok") {
-    //   console.log(data);
-    //   //setDashboard(data.dashboard);
-    // }
+    props.handleNew(item);
   }
 
   return (

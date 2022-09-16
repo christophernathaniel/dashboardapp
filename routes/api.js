@@ -18,6 +18,7 @@ router.post("/register", async (req, res) => {
       email: req.body.email,
       password: req.body.password,
     });
+    res.json({ status: "ok" });
   } catch (err) {
     res.json({ status: "error" });
   }
@@ -120,7 +121,7 @@ router.post("/card/update", async (req, res) => {
     const user_uuid = decoded.uuid;
     await Card.updateOne(
       { uuid: uuid, user_uuid: user_uuid },
-      { $set: { data: req.body.card } }
+      { $set: { data: req.body.card, name: req.body.name } }
     );
 
     console.log(

@@ -36,8 +36,6 @@ const New = (props) => {
     const data = await req.json();
 
     if (data.status === "ok") {
-      console.log(data);
-      //setDashboard(data.dashboard);
     }
   }
 

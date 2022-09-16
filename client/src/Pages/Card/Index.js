@@ -80,17 +80,19 @@ const Card = () => {
   }
 
   const handleUpdate = async (data) => {
+    console.log(data);
     let newArr = [...card];
-    let index = newArr.findIndex((x) => x.uuid === bill);
-    let dataAssign = (newArr[index].data = data); // Assign Data
-    let body = { card: dataAssign }; // For Submit
+    let index = newArr.findIndex((x) => x.uuid === bill.uuid);
+    let dataAssign = (newArr[index].data = data.data); // Assign Data
+    let nameAssign = (newArr[index].name = data.name); // Assign Name
+    let body = { name: data.name, card: data.data }; // For Submit
 
     const req = await fetch(window.getfetch + "api/card/update", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         "x-access-token": localStorage.getItem("token"),
-        uuid: bill,
+        uuid: bill.uuid,
       },
       body: JSON.stringify(body),
     });
@@ -102,15 +104,11 @@ const Card = () => {
 
       {/* <h1>Dashboard: {dashboard || "No dashboard found"}</h1> */}
       {card?.map((item, index) => (
-        <div key={item.uuid}>
+        <div key={index}>
           <div>{item.name}</div>
-          {/* <button
-            onClick={
-              (() => navigate("/card/" + item.uuid), { uuid: item.uuid })
-            }
-          ></button> */}
+
           <div>{item.uuid}</div>
-          <button onClick={() => setBill(item.uuid)}>Open</button>
+          <button onClick={() => setBill(item)}>Open</button>
           <button
             onClick={() => {
               removeItem(item.uuid, index);
@@ -123,7 +121,16 @@ const Card = () => {
 
       <New card={card} handleNew={handleNew} user={user} />
 
-      {bill ? <Bill uuid={bill} handleUpdate={handleUpdate} /> : ""}
+      {bill ? (
+        <Bill
+          bill={bill}
+          card={card}
+          setCard={setCard}
+          handleUpdate={handleUpdate}
+        />
+      ) : (
+        ""
+      )}
     </div>
   );
 };
