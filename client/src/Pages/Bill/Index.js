@@ -3,51 +3,38 @@ import jwt from "jsonwebtoken";
 import { useNavigate } from "react-router-dom";
 import New from "./New";
 
+import "./Index.scss";
+
+import { HiPencilAlt } from "react-icons/hi";
+import { TiTick } from "react-icons/ti";
+import { MdArrowBackIos } from "react-icons/md";
+
 const Bill = (props) => {
   const navigate = useNavigate();
   const [bill, setBill] = useState({});
   const [card, setCard] = useState([]);
+  const [showNew, setShowNew] = useState(false);
 
-  // async function populateBill() {
-  //   const req = await fetch(window.getfetch + "api/bill", {
-  //     headers: {
-  //       "x-access-token": localStorage.getItem("token"),
-  //       uuid: props.bill.uuid,
-  //     },
-  //   });
-
-  //   const data = await req.json();
-  //   if (data.status === "ok") {
-  //     setBill(data.data.data);
-  //   } else {
-  //     alert(data.error);
-  //   }
-  // }
+  const [edit_cardName, setEdit_cardName] = useState(false);
+  const [edit_cardTotalInAccount, setEdit_cardTotalInAccount] = useState(false);
+  const [edit_cardHolderName, setEdit_cardHolderName] = useState(false);
+  const [edit_cardBank, setEdit_cardBank] = useState(false);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      const user = jwt.decode(token);
-      if (!user) {
-        localStorage.removeItem("token");
-        navigate("/login");
-      } else {
-        //populateBill();
-        setCard(props.card);
-        setBill(props.bill);
-      }
-    }
+    setCard(props.card);
+    setBill(props.bill);
+    setShowNew(false);
   }, [props.bill]);
 
   const handleNew = (data) => {
-    // console.log(data);
-
     let newArr = [...card]; // Create a new array from Card
     let index = newArr.findIndex((x) => x.uuid === props.bill.uuid); // Find Correct Card
+
     newArr[index]["data"] = data; // Set a new Value
+    setShowNew(false);
 
     setCard(newArr);
-    props.handleUpdate(data);
+    props.handleUpdate(newArr[index]);
   };
 
   async function removeItem(index) {
@@ -70,43 +57,206 @@ const Bill = (props) => {
     setCard(newArr);
   };
 
+  const changeTotalInAccount = (value) => {
+    let newArr = [...card]; // Create a new array from Card
+    let index = newArr.findIndex((x) => x.uuid === props.bill.uuid); // Find Correct Card
+    newArr[index]["totalInAccount"] = value; // Set a new Value
+    props.handleUpdate(newArr[index]);
+    setCard(newArr);
+  };
+
+  const changeCardHolderName = (value) => {
+    let newArr = [...card]; // Create a new array from Card
+    let index = newArr.findIndex((x) => x.uuid === props.bill.uuid); // Find Correct Card
+    newArr[index]["cardHolderName"] = value; // Set a new Value
+    props.handleUpdate(newArr[index]);
+    setCard(newArr);
+  };
+
+  const changeBank = (value) => {
+    let newArr = [...card]; // Create a new array from Card
+    let index = newArr.findIndex((x) => x.uuid === props.bill.uuid); // Find Correct Card
+    newArr[index]["bank"] = value; // Set a new Value
+    props.handleUpdate(newArr[index]);
+    setCard(newArr);
+  };
+
+  const changeActive = (value) => {
+    console.log(value);
+    let newArr = [...card]; // Create a new array from Card
+    let index = newArr.findIndex((x) => x.uuid === props.bill.uuid); // Find Correct Card
+    newArr[index]["active"] = value; // Set a new Value
+    props.handleUpdate(newArr[index]);
+    setCard(newArr);
+  };
+
   return (
-    <div>
-      <h1>BILL</h1>
-      <div>
-        Card Name:{" "}
-        <input
-          onChange={(e) => changeTitle(e.target.value)}
-          value={props.bill.name}
-        />
+    <div className="bill-model">
+      <div className="bill-toolbar">
+        <div
+          className="back"
+          onClick={() => {
+            props.setBill(false);
+          }}
+        >
+          <MdArrowBackIos size={20} /> Cards
+        </div>
       </div>
-      <div>{props.bill.uuid}</div>
-      {/* <h1>Dashboard: {dashboard || "No dashboard found"}</h1> */}
-
-      {bill &&
-        bill?.data?.map((item, index) => (
-          <div key={index}>
-            <div>{item.name}</div>
-            <div>{item.pm}</div>
-            <div>{item.remaining}</div>
-
-            <button
-              onClick={() => {
-                removeItem(index);
-              }}
-            >
-              Delete
-            </button>
+      <div class="ui-width">
+        <div class="editCard">
+          <h1>
+            {!edit_cardName && <div>{props.bill.name}</div>}
+            {edit_cardName && (
+              <input
+                onChange={(e) => changeTitle(e.target.value)}
+                value={props.bill.name}
+                className="edit"
+              />
+            )}
+          </h1>
+          <div
+            className="title-edit"
+            onClick={() => setEdit_cardName(!edit_cardName)}
+          >
+            {!edit_cardName ? <HiPencilAlt size={20} /> : <TiTick size={20} />}
           </div>
-        ))}
+        </div>
 
-      <New
-        bill={bill}
-        card={card}
-        setCard={setCard}
-        uuid={props.bill.uuid}
-        handleNew={handleNew}
-      />
+        <div class="editCard">
+          {!edit_cardTotalInAccount && <div>{props.bill.totalInAccount}</div>}
+          {edit_cardTotalInAccount && (
+            <input
+              onChange={(e) => changeTotalInAccount(e.target.value)}
+              value={props.bill.totalInAccount}
+              className="edit"
+            />
+          )}
+
+          <div
+            className="title-edit"
+            onClick={() => setEdit_cardTotalInAccount(!edit_cardTotalInAccount)}
+          >
+            {!edit_cardTotalInAccount ? (
+              <HiPencilAlt size={20} />
+            ) : (
+              <TiTick size={20} />
+            )}
+          </div>
+        </div>
+
+        <div class="editCard">
+          {!edit_cardHolderName && <div>{props.bill.cardHolderName}</div>}
+          {edit_cardHolderName && (
+            <input
+              onChange={(e) => changeCardHolderName(e.target.value)}
+              value={props.bill.cardHolderName}
+              className="edit"
+            />
+          )}
+
+          <div
+            className="title-edit"
+            onClick={() => setEdit_cardHolderName(!edit_cardHolderName)}
+          >
+            {!edit_cardHolderName ? (
+              <HiPencilAlt size={20} />
+            ) : (
+              <TiTick size={20} />
+            )}
+          </div>
+        </div>
+
+        <div class="editCard">
+          <label className="checkbox">
+            <input
+              type="checkbox"
+              onChange={(e) => changeActive(!props.bill.active)}
+              checked={props.bill.active === true}
+            />
+            {props.bill.active ? (
+              <div>Card Active</div>
+            ) : (
+              <div>Card Inactive</div>
+            )}
+          </label>
+        </div>
+
+        <div class="editCard">
+          {!edit_cardBank && <div>{props.bill.bank}</div>}
+          {edit_cardBank && (
+            <input
+              onChange={(e) => changeBank(e.target.value)}
+              value={props.bill.bank}
+              className="edit"
+            />
+          )}
+
+          <div
+            className="title-edit"
+            onClick={() => setEdit_cardBank(!edit_cardBank)}
+          >
+            {!edit_cardBank ? <HiPencilAlt size={20} /> : <TiTick size={20} />}
+          </div>
+        </div>
+      </div>
+      <div class="ui-width">
+        {/* <h1>Dashboard: {dashboard || "No dashboard found"}</h1> */}
+
+        <table className="table">
+          <thead>
+            <tr>
+              <th scope="col">Paid</th>
+              <th scope="col">Name</th>
+              <th scope="col">Per Month</th>
+              <th scope="col">Remaining</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {bill &&
+              bill?.data?.map((item, index) => (
+                <tr key={index}>
+                  <td>
+                    <label>
+                      {/* <input type="checkbox" checked={item.paid} /> */}
+                    </label>
+                  </td>
+                  <td>{item.name}</td>
+                  <td>£{item.pm}</td>
+                  <td>{item.remaining && <div>£{item.remaining}</div>}</td>
+                  <td>
+                    <button
+                      onClick={() => {
+                        removeItem(index);
+                      }}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+      </div>
+
+      <div
+        onClick={() => {
+          setShowNew(!showNew);
+        }}
+      >
+        Create New Bill
+      </div>
+
+      {showNew && (
+        <New
+          bill={bill}
+          setBill={setBill}
+          card={card}
+          setCard={setCard}
+          uuid={props.bill.uuid}
+          handleNew={handleNew}
+        />
+      )}
     </div>
   );
 };

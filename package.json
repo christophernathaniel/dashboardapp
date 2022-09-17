@@ -24,11 +24,14 @@
   "homepage": "https://github.com/christophernathaniel/dashboardapp#readme",
   "dependencies": {
     "bcrypt": "^5.0.1",
+    "bootstrap": "^5.2.1",
     "concurrently": "^7.4.0",
     "cors": "^2.8.5",
     "express": "^4.18.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.6.1",
-    "nodemon": "^2.0.19"
+    "nodemon": "^2.0.19",
+    "react-icons": "^4.4.0",
+    "sass": "^1.54.9"
   }
 }

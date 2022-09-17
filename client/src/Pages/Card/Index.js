@@ -4,10 +4,15 @@ import { useNavigate } from "react-router-dom";
 import New from "./New";
 import Bill from "../Bill/Index";
 
+import "./Index.scss";
+import { ImCog } from "react-icons/im";
+import { HiTrash } from "react-icons/hi";
+
 const Card = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState(0);
   const [bill, setBill] = useState(false);
+  const [showNew, setShowNew] = useState(false);
   const [card, setCard] = useState([
     {
       id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
@@ -44,12 +49,15 @@ const Card = () => {
     if (token) {
       const user = jwt.decode(token);
       setUser(user.uuid);
+
       if (!user) {
         localStorage.removeItem("token");
         navigate("/login");
       } else {
         populateCard();
       }
+    } else {
+      navigate("/login");
     }
   }, []);
 
@@ -81,11 +89,14 @@ const Card = () => {
 
   const handleUpdate = async (data) => {
     console.log(data);
-    let newArr = [...card];
-    let index = newArr.findIndex((x) => x.uuid === bill.uuid);
-    let dataAssign = (newArr[index].data = data.data); // Assign Data
-    let nameAssign = (newArr[index].name = data.name); // Assign Name
-    let body = { name: data.name, card: data.data }; // For Submit
+    let body = {
+      name: data.name,
+      card: data.data,
+      totalInAccount: data.totalInAccount,
+      cardHolderName: data.cardHolderName,
+      bank: data.bank,
+      active: data.active,
+    }; // For Submit
 
     const req = await fetch(window.getfetch + "api/card/update", {
       method: "POST",
@@ -99,31 +110,73 @@ const Card = () => {
   };
 
   return (
-    <div>
-      <h1>Card</h1>
+    <div className="creditCardModel">
+      <div className="ui-width">
+        <h1>My Cards</h1>
+      </div>
 
-      {/* <h1>Dashboard: {dashboard || "No dashboard found"}</h1> */}
-      {card?.map((item, index) => (
-        <div key={index}>
-          <div>{item.name}</div>
-
-          <div>{item.uuid}</div>
-          <button onClick={() => setBill(item)}>Open</button>
-          <button
-            onClick={() => {
-              removeItem(item.uuid, index);
-            }}
+      <div className="ui-width creditCardList">
+        {/* <h1>Dashboard: {dashboard || "No dashboard found"}</h1> */}
+        {card?.map((item, index) => (
+          <div
+            key={index}
+            className={
+              "creditCard color-" + item.color + " active-" + item.active
+            }
           >
-            Delete
-          </button>
-        </div>
-      ))}
+            <div className="creditCardInner">
+              <div className="left">
+                <div className="top">
+                  <div className="bank">{item.bank}</div>
+                </div>
+                <div className="middle">
+                  <div className="totalinaccount">£{item.totalInAccount}</div>
+                </div>
+                <div className="bottom">
+                  <div className="cardNumber">**** **** **** ****</div>
 
-      <New card={card} handleNew={handleNew} user={user} />
+                  <div className="cardholdername">{item.cardHolderName}</div>
+                </div>
+              </div>
+              <div class="right">
+                <div onClick={() => setBill(item)}>
+                  <ImCog size={18} />
+                </div>
+                <div
+                  onClick={() => {
+                    removeItem(item.uuid, index);
+                  }}
+                >
+                  <HiTrash size={24} />
+                </div>
+              </div>
+            </div>
+            <div className="name">{item.name}</div>
+          </div>
+        ))}
+      </div>
+
+      <div
+        onClick={() => {
+          setShowNew(!showNew);
+        }}
+      >
+        Add New Card
+      </div>
+
+      {showNew && (
+        <New
+          card={card}
+          setShowNew={setShowNew}
+          handleNew={handleNew}
+          user={user}
+        />
+      )}
 
       {bill ? (
         <Bill
           bill={bill}
+          setBill={setBill}
           card={card}
           setCard={setCard}
           handleUpdate={handleUpdate}

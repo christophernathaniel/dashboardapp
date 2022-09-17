@@ -121,7 +121,16 @@ router.post("/card/update", async (req, res) => {
     const user_uuid = decoded.uuid;
     await Card.updateOne(
       { uuid: uuid, user_uuid: user_uuid },
-      { $set: { data: req.body.card, name: req.body.name } }
+      {
+        $set: {
+          data: req.body.card,
+          name: req.body.name,
+          totalInAccount: req.body.totalInAccount,
+          cardHolderName: req.body.cardHolderName,
+          bank: req.body.bank,
+          active: req.body.active,
+        },
+      }
     );
 
     console.log(
@@ -152,6 +161,11 @@ router.post("/card/create", async (req, res) => {
       uuid: req.body.uuid,
       user_uuid: user_uuid,
       name: req.body.name,
+      bank: req.body.bank,
+      color: req.body.color,
+      active: req.body.active,
+      cardHolderName: req.body.cardHolderName,
+      totalInAccount: req.body.totalInAccount,
       data: [],
     });
 

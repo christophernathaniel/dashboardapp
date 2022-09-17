@@ -1,8 +1,14 @@
 import React, { useState } from "react";
 
+import "./New.scss";
+
 const New = (props) => {
   const [itemName, setItemName] = useState("");
+  const [cardHolderName, setCardHolderName] = useState("");
   const [itemActive, setItemActive] = useState(0);
+  const [itemBank, setItemBank] = useState("");
+  const [itemColor, setItemColor] = useState("blue");
+  const [totalInAccount, setTotalInAccount] = useState(0);
 
   const generateKey = (pre) => {
     return `${pre}_${new Date().getTime()}`;
@@ -19,6 +25,10 @@ const New = (props) => {
       uuid: key,
       name: itemName,
       active: itemActive,
+      cardHolderName: cardHolderName,
+      totalInAccount: totalInAccount,
+      bank: itemBank,
+      color: itemColor,
       data: [{}],
     };
 
@@ -41,12 +51,37 @@ const New = (props) => {
 
   return (
     <div>
+      <div
+        onClick={() => {
+          props.setShowNew(false);
+        }}
+      >
+        Close
+      </div>
       <form onSubmit={newItem}>
         <input
           type="text"
           placeholder="Name"
           value={itemName}
           onChange={(e) => setItemName(e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="Bank"
+          value={itemBank}
+          onChange={(e) => setItemBank(e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="Cardholder Full Name"
+          value={cardHolderName}
+          onChange={(e) => setCardHolderName(e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="Color"
+          value={itemColor}
+          onChange={(e) => setItemColor(e.target.value)}
         />
         <input
           type="text"

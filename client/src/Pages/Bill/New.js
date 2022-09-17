@@ -27,19 +27,30 @@ const New = (props) => {
           name: itemName,
           remaining: itemRemaining,
           pm: itemPm,
-          active: itemActive,
-          paid: itemPaid,
+          active: true,
+          paid: false,
           category: itemCategory,
           incoming: itemIncoming,
         },
       ],
     };
 
-    props.handleNew(item);
+    // console.log("------");
+    // console.log(props.bill);
+    // console.log(item);
+
+    // props.bill["data"] = item.data;
+
+    // console.log(props.bill);
+
+    // props.setBill(props.bill);
+
+    props.handleNew(item.data);
   }
 
   return (
     <div>
+      <h1>New</h1>
       <form onSubmit={newItem}>
         <input
           type="text"
@@ -49,37 +60,37 @@ const New = (props) => {
         />
         <input
           type="text"
-          placeholder="Pm"
+          placeholder="Per Month"
           value={itemPm}
           onChange={(e) => setItemPm(e.target.value)}
         />
         <input
           type="text"
-          placeholder="Dashboard"
+          placeholder="Total Remaining"
           value={itemRemaining}
           onChange={(e) => setItemRemaining(e.target.value)}
         />
-        <input
+        {/* <input
           type="text"
-          placeholder="Dashboard"
+          placeholder="Is Active"
           value={itemActive}
           onChange={(e) => setItemActive(e.target.value)}
         />
         <input
           type="text"
-          placeholder="Dashboard"
+          placeholder="Is Paid"
           value={itemPaid}
           onChange={(e) => setItemPaid(e.target.value)}
-        />
+        /> */}
         <input
           type="text"
-          placeholder="Dashboard"
+          placeholder="Category"
           value={itemCategory}
           onChange={(e) => setItemCategory(e.target.value)}
         />
         <input
           type="text"
-          placeholder="Dashboard"
+          placeholder="Incoming / Outgoing"
           value={itemIncoming}
           onChange={(e) => setItemIncoming(e.target.value)}
         />

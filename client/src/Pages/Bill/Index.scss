@@ -1,0 +1,64 @@
+.bill-model {
+  background-color: white;
+  position: absolute;
+  top: 0;
+  width: calc(100% - 260px);
+
+  @media (max-width: 991.98px) {
+    width: 100%;
+  }
+
+  height: 100%;
+
+  .editCard {
+    position: relative;
+    width: max-content;
+  }
+
+  .back {
+    height: 60px;
+    padding-left: 20px;
+    display: flex;
+    align-items: center;
+    color: #3f80ea;
+  }
+
+  .bill-toolbar {
+    border-bottom: 0;
+    box-shadow: 0 0 2rem 0 rgb(41 48 66 / 10%);
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    background: #fff;
+    padding: 0;
+    justify-content: space-between;
+    min-height: 60px;
+  }
+
+  input.edit {
+    color: #3f80ea;
+    border-color: #3f80ea;
+    appearance: none;
+    outline: none;
+    box-shadow: none;
+    border: none;
+    font-weight: 500;
+    margin: 0;
+    padding: 0;
+    width: max-content;
+  }
+
+  .checkbox {
+    input {
+    }
+  }
+
+  .title-edit {
+    position: absolute;
+    top: 0;
+    right: -30px;
+  }
+
+  .table {
+    max-width: 100%;
+  }
+}

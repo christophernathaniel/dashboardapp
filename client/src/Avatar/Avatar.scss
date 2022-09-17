@@ -1,0 +1,23 @@
+.dropdown {
+  position: relative;
+}
+
+.dropdown .dropdown-menu {
+  -webkit-animation-duration: 0.5s;
+  animation-duration: 0.5s;
+  -webkit-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
+  -webkit-animation-iteration-count: 1;
+  animation-iteration-count: 1;
+  -webkit-animation-name: dropdownAnimation;
+  animation-name: dropdownAnimation;
+  -webkit-animation-timing-function: ease;
+  animation-timing-function: ease;
+
+  position: absolute;
+  box-shadow: 0 0.1rem 0.2rem rgb(0 0 0 / 5%);
+  display: block;
+  left: auto;
+  right: 0;
+  top: 100%;
+}
