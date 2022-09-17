@@ -209,6 +209,8 @@ const Bill = (props) => {
               <th scope="col">Name</th>
               <th scope="col">Per Month</th>
               <th scope="col">Remaining</th>
+              <th scope="col">Category</th>
+              <th scope="col">Incoming/Outgoing</th>
               <th scope="col"></th>
             </tr>
           </thead>
@@ -217,13 +219,20 @@ const Bill = (props) => {
               bill?.data?.map((item, index) => (
                 <tr key={index}>
                   <td>
-                    <label>
-                      {/* <input type="checkbox" checked={item.paid} /> */}
+                    <label class="checkbox">
+                      <input
+                        type="checkbox"
+                        placeholder="Is Paid"
+                        value={item.paid}
+                        onChange={(e) => {}}
+                      />
                     </label>
                   </td>
                   <td>{item.name}</td>
                   <td>£{item.pm}</td>
                   <td>{item.remaining && <div>£{item.remaining}</div>}</td>
+                  <td>{item.category}</td>
+                  <td>{item.incoming}</td>
                   <td>
                     <button
                       onClick={() => {
@@ -237,9 +246,18 @@ const Bill = (props) => {
               ))}
           </tbody>
         </table>
+
+        <New
+          bill={bill}
+          setBill={setBill}
+          card={card}
+          setCard={setCard}
+          uuid={props.bill.uuid}
+          handleNew={handleNew}
+        />
       </div>
 
-      <div
+      {/* <div
         onClick={() => {
           setShowNew(!showNew);
         }}
@@ -256,7 +274,7 @@ const Bill = (props) => {
           uuid={props.bill.uuid}
           handleNew={handleNew}
         />
-      )}
+      )} */}
     </div>
   );
 };

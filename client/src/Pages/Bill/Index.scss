@@ -48,7 +48,27 @@
   }
 
   .checkbox {
+    height: 20px;
+    width: 20px;
+    border-radius: 20px;
+    border: 2px solid #b1b1b1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     input {
+      appearance: none;
+      padding: 0;
+      margin: 0;
+      height: 12px;
+      width: 12px;
+      max-height: 12px;
+      max-width: 12px;
+
+      &:checked {
+        border-radius: 20px;
+        background-color: #b1b1b1;
+      }
     }
   }
 
@@ -60,5 +80,58 @@
 
   .table {
     max-width: 100%;
+    margin-bottom: 0;
+
+    input:not([type="checkbox"]),
+    select,
+    option {
+      max-width: 100%;
+      width: 100%;
+      border: none;
+    }
+
+    > * > * > * {
+      &:nth-child(1) {
+        width: 60px;
+      }
+
+      &:nth-child(2) {
+        width: 260px;
+      }
+
+      &:nth-child(3),
+      &:nth-child(4) {
+        width: 120px;
+      }
+
+      &:nth-child(5) {
+        width: 140px;
+      }
+
+      &:nth-child(6) {
+        width: 180px;
+      }
+    }
   }
+
+  .table {
+    display: table;
+  }
+  .table > * {
+    display: table-row-group;
+  }
+  .table > * > * {
+    display: table-row;
+  }
+  .table > * > * > * {
+    display: table-cell;
+  }
+
+  //   .new-form {
+  //     display: table;
+  //     width: 100%;
+  //     input {
+  //       display: table-cell;
+  //     }
+  //   }
 }
