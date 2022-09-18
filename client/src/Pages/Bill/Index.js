@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import jwt from "jsonwebtoken";
 import { useNavigate } from "react-router-dom";
 import New from "./New";
+import Edit from "./Edit";
 
 import "./Index.scss";
 
@@ -19,6 +20,7 @@ const Bill = (props) => {
   const [edit_cardTotalInAccount, setEdit_cardTotalInAccount] = useState(false);
   const [edit_cardHolderName, setEdit_cardHolderName] = useState(false);
   const [edit_cardBank, setEdit_cardBank] = useState(false);
+  const [editItem, setEditItem] = useState(false);
 
   useEffect(() => {
     setCard(props.card);
@@ -48,6 +50,14 @@ const Bill = (props) => {
     props.handleUpdate(newArr[findindex]);
     setCard(newArr);
   }
+
+  const updateEdit = (value, i) => {
+    let newArr = [...card]; // Create a new array from Card
+    let index = newArr.findIndex((x) => x.uuid === props.bill.uuid); // Find Correct Card
+    newArr[index].data[i] = value; // Set a new Value
+    props.handleUpdate(newArr[index]);
+    setCard(newArr);
+  };
 
   const changeTitle = (value) => {
     let newArr = [...card]; // Create a new array from Card
@@ -86,6 +96,27 @@ const Bill = (props) => {
     let newArr = [...card]; // Create a new array from Card
     let index = newArr.findIndex((x) => x.uuid === props.bill.uuid); // Find Correct Card
     newArr[index]["active"] = value; // Set a new Value
+    props.handleUpdate(newArr[index]);
+    setCard(newArr);
+  };
+
+  const setIitemPaid = (value, i) => {
+    let newArr = [...card]; // Create a new array from Card
+    let index = newArr.findIndex((x) => x.uuid === props.bill.uuid); // Find Correct Card
+
+    let getBill = newArr[index].data[i];
+    getBill.paid = value;
+
+    props.handleUpdate(newArr[index]);
+    setCard(newArr);
+  };
+
+  const setItemActive = (value, i) => {
+    let newArr = [...card]; // Create a new array from Card
+    let index = newArr.findIndex((x) => x.uuid === props.bill.uuid); // Find Correct Card
+
+    let getBill = newArr[index].data[i];
+    getBill.active = value;
     props.handleUpdate(newArr[index]);
     setCard(newArr);
   };
@@ -211,7 +242,8 @@ const Bill = (props) => {
               <th scope="col">Remaining</th>
               <th scope="col">Category</th>
               <th scope="col">Incoming/Outgoing</th>
-              <th scope="col"></th>
+              <th scope="col">Active</th>
+              <th scope="col">Options</th>
             </tr>
           </thead>
           <tbody>
@@ -223,8 +255,9 @@ const Bill = (props) => {
                       <input
                         type="checkbox"
                         placeholder="Is Paid"
+                        checked={item.paid}
                         value={item.paid}
-                        onChange={(e) => {}}
+                        onChange={(e) => setIitemPaid(!item.paid, index)}
                       />
                     </label>
                   </td>
@@ -234,7 +267,27 @@ const Bill = (props) => {
                   <td>{item.category}</td>
                   <td>{item.incoming}</td>
                   <td>
+                    <label class="checkbox">
+                      <input
+                        type="checkbox"
+                        placeholder="Is Active"
+                        checked={item.active}
+                        value={item.active}
+                        onChange={(e) => setItemActive(!item.active, index)}
+                      />
+                    </label>
+                  </td>
+                  <td>
                     <button
+                      className="edit-button"
+                      onClick={() => {
+                        setEditItem(index);
+                      }}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="delete-button"
                       onClick={() => {
                         removeItem(index);
                       }}
@@ -246,6 +299,16 @@ const Bill = (props) => {
               ))}
           </tbody>
         </table>
+
+        {editItem !== false && (
+          <Edit
+            editItem={editItem}
+            setEditItem={setEditItem}
+            bill={bill}
+            setBill={setBill}
+            updateEdit={updateEdit}
+          />
+        )}
 
         <New
           bill={bill}

@@ -119,7 +119,7 @@ const New = (props) => {
             </select>
           </div>
           <div>
-            <input type="submit" value="Update value" />
+            <input type="submit" class="add-button" value="Add Monthly Bill" />
           </div>
         </div>
       </div>

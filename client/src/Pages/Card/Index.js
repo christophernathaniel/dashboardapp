@@ -13,6 +13,8 @@ const Card = () => {
   const [user, setUser] = useState(0);
   const [bill, setBill] = useState(false);
   const [showNew, setShowNew] = useState(false);
+  const [remainingTotal, setRemainingTotal] = useState(0);
+
   const [card, setCard] = useState([
     {
       id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
@@ -39,6 +41,7 @@ const Card = () => {
 
     if (data.status === "ok") {
       setCard(data.data);
+      updateMath(data.data);
     } else {
       alert(data.error);
     }
@@ -107,6 +110,35 @@ const Card = () => {
       },
       body: JSON.stringify(body),
     });
+
+    updateMath(card);
+  };
+
+  const updateMath = (card) => {
+    // Function to calculate the total of ALL cards
+    const pm = card?.reduce((allTotal, items) => {
+      const sum = (items.totalPm = items?.data?.reduce((total, item) => {
+        return item.active && !item.paid && item.incoming === "Outgoing"
+          ? Number(total) + Number(item.pm)
+          : Number(total);
+      }, 0));
+      return Number(allTotal) + Number(sum);
+    }, 0);
+
+    const total = card?.reduce((allTotal, items) => {
+      return Number(allTotal) + Number(items.totalInAccount);
+    }, 0);
+
+    console.log(pm);
+    console.log(total);
+
+    setRemainingTotal(Number(pm));
+    // card.data(all).pm;
+    // card.data(all).remaining;
+    // card.data(all).incoming;
+    // card.data(all).active;
+    // card.data(all).paid;
+    // card.totalInAccount;
   };
 
   return (
@@ -129,12 +161,18 @@ const Card = () => {
                 <div className="top">
                   <div className="bank">{item.bank}</div>
                 </div>
+
                 <div className="middle">
-                  <div className="totalinaccount">£{item.totalInAccount}</div>
+                  <div className="totalinaccount">
+                    <span>Total:</span>£{item.totalInAccount}
+                  </div>
+                  <div className="totalRemaining">
+                    <span>Spare:</span> £{item.totalInAccount - item.totalPm}
+                  </div>
                 </div>
+
                 <div className="bottom">
                   <div className="cardNumber">**** **** **** ****</div>
-
                   <div className="cardholdername">{item.cardHolderName}</div>
                 </div>
               </div>
