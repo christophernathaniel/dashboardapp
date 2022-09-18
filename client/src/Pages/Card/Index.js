@@ -142,7 +142,7 @@ const Card = () => {
   };
 
   return (
-    <div className="creditCardModel">
+    <div className="creditCardModel scrollModel">
       <div className="ui-width">
         <h1>My Cards</h1>
       </div>

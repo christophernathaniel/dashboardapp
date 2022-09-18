@@ -23,6 +23,18 @@ const Bill = (props) => {
   const [editItem, setEditItem] = useState(false);
 
   useEffect(() => {
+    props.bill.data = [...props.bill.data].sort((a, b) =>
+      a.name > b.name ? -1 : 1
+    );
+
+    props.bill.data = [...props.bill.data].sort((a, b) =>
+      a.active === b.active ? 0 : a.active ? 1 : -1
+    );
+
+    props.bill.data = [...props.bill.data].sort((a, b) =>
+      a.category > b.category ? 1 : -1
+    );
+
     setCard(props.card);
     setBill(props.bill);
     setShowNew(false);
@@ -121,6 +133,8 @@ const Bill = (props) => {
     setCard(newArr);
   };
 
+  let prevCategory = "";
+
   return (
     <div className="bill-model">
       <div className="bill-toolbar">
@@ -133,194 +147,211 @@ const Bill = (props) => {
           <MdArrowBackIos size={20} /> Cards
         </div>
       </div>
-      <div class="ui-width">
-        <div class="editCard">
-          <h1>
-            {!edit_cardName && <div>{props.bill.name}</div>}
-            {edit_cardName && (
+      <div class="scrollModel">
+        <div class="ui-width">
+          <div class="editCard">
+            <h1>
+              {!edit_cardName && <div>{props.bill.name}</div>}
+              {edit_cardName && (
+                <input
+                  onChange={(e) => changeTitle(e.target.value)}
+                  value={props.bill.name}
+                  className="edit"
+                />
+              )}
+            </h1>
+            <div
+              className="title-edit"
+              onClick={() => setEdit_cardName(!edit_cardName)}
+            >
+              {!edit_cardName ? (
+                <HiPencilAlt size={20} />
+              ) : (
+                <TiTick size={20} />
+              )}
+            </div>
+          </div>
+
+          <div class="editCard">
+            {!edit_cardTotalInAccount && <div>{props.bill.totalInAccount}</div>}
+            {edit_cardTotalInAccount && (
               <input
-                onChange={(e) => changeTitle(e.target.value)}
-                value={props.bill.name}
+                onChange={(e) => changeTotalInAccount(e.target.value)}
+                value={props.bill.totalInAccount}
                 className="edit"
               />
             )}
-          </h1>
-          <div
-            className="title-edit"
-            onClick={() => setEdit_cardName(!edit_cardName)}
-          >
-            {!edit_cardName ? <HiPencilAlt size={20} /> : <TiTick size={20} />}
+
+            <div
+              className="title-edit"
+              onClick={() =>
+                setEdit_cardTotalInAccount(!edit_cardTotalInAccount)
+              }
+            >
+              {!edit_cardTotalInAccount ? (
+                <HiPencilAlt size={20} />
+              ) : (
+                <TiTick size={20} />
+              )}
+            </div>
+          </div>
+
+          <div class="editCard">
+            {!edit_cardHolderName && <div>{props.bill.cardHolderName}</div>}
+            {edit_cardHolderName && (
+              <input
+                onChange={(e) => changeCardHolderName(e.target.value)}
+                value={props.bill.cardHolderName}
+                className="edit"
+              />
+            )}
+
+            <div
+              className="title-edit"
+              onClick={() => setEdit_cardHolderName(!edit_cardHolderName)}
+            >
+              {!edit_cardHolderName ? (
+                <HiPencilAlt size={20} />
+              ) : (
+                <TiTick size={20} />
+              )}
+            </div>
+          </div>
+
+          <div class="editCard">
+            <label className="checkbox">
+              <input
+                type="checkbox"
+                onChange={(e) => changeActive(!props.bill.active)}
+                checked={props.bill.active === true}
+              />
+              {props.bill.active ? (
+                <div>Card Active</div>
+              ) : (
+                <div>Card Inactive</div>
+              )}
+            </label>
+          </div>
+
+          <div class="editCard">
+            {!edit_cardBank && <div>{props.bill.bank}</div>}
+            {edit_cardBank && (
+              <input
+                onChange={(e) => changeBank(e.target.value)}
+                value={props.bill.bank}
+                className="edit"
+              />
+            )}
+
+            <div
+              className="title-edit"
+              onClick={() => setEdit_cardBank(!edit_cardBank)}
+            >
+              {!edit_cardBank ? (
+                <HiPencilAlt size={20} />
+              ) : (
+                <TiTick size={20} />
+              )}
+            </div>
           </div>
         </div>
+        <div class="ui-width">
+          {/* <h1>Dashboard: {dashboard || "No dashboard found"}</h1> */}
 
-        <div class="editCard">
-          {!edit_cardTotalInAccount && <div>{props.bill.totalInAccount}</div>}
-          {edit_cardTotalInAccount && (
-            <input
-              onChange={(e) => changeTotalInAccount(e.target.value)}
-              value={props.bill.totalInAccount}
-              className="edit"
+          <table className="table">
+            <thead>
+              <tr>
+                <th scope="col">Paid</th>
+                <th scope="col">Name</th>
+                <th scope="col">Per Month</th>
+                <th scope="col">Remaining</th>
+                <th scope="col">Category</th>
+                <th scope="col">Incoming/Outgoing</th>
+                <th scope="col">Active</th>
+                <th scope="col">Options</th>
+              </tr>
+            </thead>
+            <tbody>
+              {bill &&
+                bill?.data?.map((item, index) => (
+                  <>
+                    {item.category !== prevCategory && (
+                      <tr className="titleTr">{item.category}</tr>
+                    )}
+                    {((prevCategory = item.category), null)}
+                    <tr key={index} className={"is-active-" + item.active}>
+                      <td>
+                        <label class="checkbox">
+                          <input
+                            type="checkbox"
+                            placeholder="Is Paid"
+                            checked={item.paid}
+                            value={item.paid}
+                            onChange={(e) => setIitemPaid(!item.paid, index)}
+                          />
+                        </label>
+                      </td>
+                      <td>{item.name}</td>
+                      <td>£{item.pm}</td>
+                      <td>{item.remaining && <div>£{item.remaining}</div>}</td>
+                      <td>{item.category}</td>
+                      <td>{item.incoming}</td>
+                      <td>
+                        <label class="checkbox">
+                          <input
+                            type="checkbox"
+                            placeholder="Is Active"
+                            checked={item.active}
+                            value={item.active}
+                            onChange={(e) => setItemActive(!item.active, index)}
+                          />
+                        </label>
+                      </td>
+                      <td>
+                        <button
+                          className="edit-button"
+                          onClick={() => {
+                            setEditItem(index);
+                          }}
+                        >
+                          Edit
+                        </button>
+                        <button
+                          className="delete-button"
+                          onClick={() => {
+                            removeItem(index);
+                          }}
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  </>
+                ))}
+            </tbody>
+          </table>
+
+          {editItem !== false && (
+            <Edit
+              editItem={editItem}
+              setEditItem={setEditItem}
+              bill={bill}
+              setBill={setBill}
+              updateEdit={updateEdit}
             />
           )}
 
-          <div
-            className="title-edit"
-            onClick={() => setEdit_cardTotalInAccount(!edit_cardTotalInAccount)}
-          >
-            {!edit_cardTotalInAccount ? (
-              <HiPencilAlt size={20} />
-            ) : (
-              <TiTick size={20} />
-            )}
-          </div>
-        </div>
-
-        <div class="editCard">
-          {!edit_cardHolderName && <div>{props.bill.cardHolderName}</div>}
-          {edit_cardHolderName && (
-            <input
-              onChange={(e) => changeCardHolderName(e.target.value)}
-              value={props.bill.cardHolderName}
-              className="edit"
-            />
-          )}
-
-          <div
-            className="title-edit"
-            onClick={() => setEdit_cardHolderName(!edit_cardHolderName)}
-          >
-            {!edit_cardHolderName ? (
-              <HiPencilAlt size={20} />
-            ) : (
-              <TiTick size={20} />
-            )}
-          </div>
-        </div>
-
-        <div class="editCard">
-          <label className="checkbox">
-            <input
-              type="checkbox"
-              onChange={(e) => changeActive(!props.bill.active)}
-              checked={props.bill.active === true}
-            />
-            {props.bill.active ? (
-              <div>Card Active</div>
-            ) : (
-              <div>Card Inactive</div>
-            )}
-          </label>
-        </div>
-
-        <div class="editCard">
-          {!edit_cardBank && <div>{props.bill.bank}</div>}
-          {edit_cardBank && (
-            <input
-              onChange={(e) => changeBank(e.target.value)}
-              value={props.bill.bank}
-              className="edit"
-            />
-          )}
-
-          <div
-            className="title-edit"
-            onClick={() => setEdit_cardBank(!edit_cardBank)}
-          >
-            {!edit_cardBank ? <HiPencilAlt size={20} /> : <TiTick size={20} />}
-          </div>
-        </div>
-      </div>
-      <div class="ui-width">
-        {/* <h1>Dashboard: {dashboard || "No dashboard found"}</h1> */}
-
-        <table className="table">
-          <thead>
-            <tr>
-              <th scope="col">Paid</th>
-              <th scope="col">Name</th>
-              <th scope="col">Per Month</th>
-              <th scope="col">Remaining</th>
-              <th scope="col">Category</th>
-              <th scope="col">Incoming/Outgoing</th>
-              <th scope="col">Active</th>
-              <th scope="col">Options</th>
-            </tr>
-          </thead>
-          <tbody>
-            {bill &&
-              bill?.data?.map((item, index) => (
-                <tr key={index}>
-                  <td>
-                    <label class="checkbox">
-                      <input
-                        type="checkbox"
-                        placeholder="Is Paid"
-                        checked={item.paid}
-                        value={item.paid}
-                        onChange={(e) => setIitemPaid(!item.paid, index)}
-                      />
-                    </label>
-                  </td>
-                  <td>{item.name}</td>
-                  <td>£{item.pm}</td>
-                  <td>{item.remaining && <div>£{item.remaining}</div>}</td>
-                  <td>{item.category}</td>
-                  <td>{item.incoming}</td>
-                  <td>
-                    <label class="checkbox">
-                      <input
-                        type="checkbox"
-                        placeholder="Is Active"
-                        checked={item.active}
-                        value={item.active}
-                        onChange={(e) => setItemActive(!item.active, index)}
-                      />
-                    </label>
-                  </td>
-                  <td>
-                    <button
-                      className="edit-button"
-                      onClick={() => {
-                        setEditItem(index);
-                      }}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      className="delete-button"
-                      onClick={() => {
-                        removeItem(index);
-                      }}
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              ))}
-          </tbody>
-        </table>
-
-        {editItem !== false && (
-          <Edit
-            editItem={editItem}
-            setEditItem={setEditItem}
+          <New
             bill={bill}
             setBill={setBill}
-            updateEdit={updateEdit}
+            card={card}
+            setCard={setCard}
+            uuid={props.bill.uuid}
+            handleNew={handleNew}
           />
-        )}
+        </div>
 
-        <New
-          bill={bill}
-          setBill={setBill}
-          card={card}
-          setCard={setCard}
-          uuid={props.bill.uuid}
-          handleNew={handleNew}
-        />
-      </div>
-
-      {/* <div
+        {/* <div
         onClick={() => {
           setShowNew(!showNew);
         }}
@@ -338,6 +369,7 @@ const Bill = (props) => {
           handleNew={handleNew}
         />
       )} */}
+      </div>
     </div>
   );
 };

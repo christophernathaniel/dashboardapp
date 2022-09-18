@@ -118,6 +118,7 @@ const New = (props) => {
               <option value="Incoming">Incoming</option>
             </select>
           </div>
+          <div></div>
           <div>
             <input type="submit" class="add-button" value="Add Monthly Bill" />
           </div>

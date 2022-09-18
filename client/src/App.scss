@@ -190,3 +190,8 @@ nav {
 .ui-width {
   padding: 2.5rem 2.5rem 1.5rem;
 }
+
+.scrollModel {
+  overflow-y: scroll;
+  max-height: calc(100vh - 60px);
+}
