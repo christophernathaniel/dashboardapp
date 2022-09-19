@@ -15,8 +15,8 @@ import "./App.scss";
 import "./Avatar/Avatar.scss";
 
 const App = () => {
-  //window.getfetch = "https://nebula-finance-app.herokuapp.com/";
-  window.getfetch = "http://localhost:8081/";
+  window.getfetch = "https://nebula-finance-app.herokuapp.com/";
+  //window.getfetch = "http://localhost:8081/";
 
   const ref = useRef();
   const [profileDropdown, setProfileDropdown] = useState(false);

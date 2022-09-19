@@ -39,7 +39,8 @@
 
   .editModelBody {
     .group {
-      label {
+      label,
+      .label {
         margin-bottom: 0px;
         border-radius: 0px;
         border-bottom: 1px solid #f1f1f1;
@@ -58,7 +59,8 @@
       }
     }
 
-    label {
+    label,
+    .label {
       padding: 12px 20px;
       background-color: white;
       display: flex;

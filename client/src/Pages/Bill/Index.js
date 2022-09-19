@@ -10,6 +10,8 @@ import { HiPencilAlt } from "react-icons/hi";
 import { TiTick } from "react-icons/ti";
 import { MdArrowBackIos } from "react-icons/md";
 
+import moment from "moment";
+
 const Bill = (props) => {
   const navigate = useNavigate();
   const [bill, setBill] = useState({});
@@ -268,6 +270,7 @@ const Bill = (props) => {
                 <th scope="col">Category</th>
                 <th scope="col">Incoming/Outgoing</th>
                 <th scope="col">Active</th>
+                <th scope="col">Start Date</th>
                 <th scope="col">Options</th>
               </tr>
             </thead>
@@ -276,7 +279,9 @@ const Bill = (props) => {
                 bill?.data?.map((item, index) => (
                   <>
                     {item.category !== prevCategory && (
-                      <tr className="titleTr">{item.category}</tr>
+                      <tr className="titleTr">
+                        <td>{item.category}</td>
+                      </tr>
                     )}
                     {((prevCategory = item.category), null)}
                     <tr key={index} className={"is-active-" + item.active}>
@@ -296,6 +301,7 @@ const Bill = (props) => {
                       <td>{item.remaining && <div>£{item.remaining}</div>}</td>
                       <td>{item.category}</td>
                       <td>{item.incoming}</td>
+
                       <td>
                         <label class="checkbox">
                           <input
@@ -308,22 +314,33 @@ const Bill = (props) => {
                         </label>
                       </td>
                       <td>
-                        <button
-                          className="edit-button"
-                          onClick={() => {
-                            setEditItem(index);
-                          }}
-                        >
-                          Edit
-                        </button>
-                        <button
-                          className="delete-button"
-                          onClick={() => {
-                            removeItem(index);
-                          }}
-                        >
-                          Delete
-                        </button>
+                        {item.startDate && (
+                          <div class="date">
+                            {moment(new Date(item.startDate)).format(
+                              "Do MMM YYYY"
+                            )}
+                          </div>
+                        )}
+                      </td>
+                      <td>
+                        <div>
+                          <button
+                            className="edit-button"
+                            onClick={() => {
+                              setEditItem(index);
+                            }}
+                          >
+                            Edit
+                          </button>
+                          <button
+                            className="delete-button"
+                            onClick={() => {
+                              removeItem(index);
+                            }}
+                          >
+                            Delete
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   </>

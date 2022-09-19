@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 
+import "flatpickr/dist/themes/material_blue.css";
+import Flatpickr from "react-flatpickr";
+
 const New = (props) => {
   const [itemName, setItemName] = useState("");
   const [itemPm, setItemPm] = useState("");
@@ -9,6 +12,7 @@ const New = (props) => {
   const [itemCategory, setItemCategory] = useState("");
   const [itemOrder, setItemOrder] = useState("");
   const [itemIncoming, setItemIncoming] = useState("Outgoing");
+  const [selectedDay, setSelectedDay] = useState("");
   const [card, setCard] = useState();
 
   const generateKey = (pre) => {
@@ -31,6 +35,7 @@ const New = (props) => {
           paid: false,
           category: itemCategory,
           incoming: itemIncoming,
+          startDate: selectedDay,
         },
       ],
     };
@@ -77,18 +82,7 @@ const New = (props) => {
               onChange={(e) => setItemRemaining(e.target.value)}
             />
           </div>
-          {/* <input
-          type="text"
-          placeholder="Is Active"
-          value={itemActive}
-          onChange={(e) => setItemActive(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Is Paid"
-          value={itemPaid}
-          onChange={(e) => setItemPaid(e.target.value)}
-        /> */}
+
           <div>
             <select
               type="text"
@@ -107,6 +101,7 @@ const New = (props) => {
               <option value="Loan">Loan</option>
             </select>
           </div>
+
           <div>
             <select
               type="text"
@@ -119,6 +114,14 @@ const New = (props) => {
             </select>
           </div>
           <div></div>
+
+          <div>
+            <Flatpickr
+              value={selectedDay}
+              onChange={(date) => setSelectedDay(date)}
+            />
+          </div>
+
           <div>
             <input type="submit" class="add-button" value="Add Monthly Bill" />
           </div>
