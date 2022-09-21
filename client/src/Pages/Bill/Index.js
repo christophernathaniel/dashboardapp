@@ -17,6 +17,10 @@ const Bill = (props) => {
   const [bill, setBill] = useState({});
   const [card, setCard] = useState([]);
   const [showNew, setShowNew] = useState(false);
+  const [animateClass, setAnimateClass] = useState(false);
+
+  const [y, setY] = useState(window.scrollY);
+  const [scrollAesthetic, setScrollAesthetic] = useState(false);
 
   const [edit_cardName, setEdit_cardName] = useState(false);
   const [edit_cardTotalInAccount, setEdit_cardTotalInAccount] = useState(false);
@@ -160,19 +164,37 @@ const Bill = (props) => {
 
   let prevCategory = "";
 
+  // Scroll Position
+  const controlDirection = (e) => {
+    if (e.target.scrollTop > 20) {
+      setScrollAesthetic(true);
+    } else {
+      setScrollAesthetic(false);
+    }
+  };
+
+  useEffect(() => {
+    setTimeout(() => {
+      setAnimateClass(true);
+    }, 300);
+  }, []);
+
   return (
-    <div className="bill-model">
-      <div className="bill-toolbar">
+    <div className={`bill-model pageModel animate-${animateClass}`}>
+      <div className={`navbar scrollAesthetic-${scrollAesthetic}`}>
         <div
           className="back"
           onClick={() => {
-            props.setBill(false);
+            setTimeout(() => {
+              props.setBill(false);
+            }, 300);
+            setAnimateClass(false);
           }}
         >
           <MdArrowBackIos size={20} /> Cards
         </div>
       </div>
-      <div class="scrollModel">
+      <div class="scrollModel" onScroll={controlDirection}>
         <div class="ui-width">
           <div class="editCard">
             <h1>

@@ -1,9 +1,4 @@
 .bill-model {
-  background-color: white;
-  position: absolute;
-  top: 0;
-  width: calc(100% - 260px);
-
   .scrollModel {
     padding-bottom: 60px;
   }
@@ -21,7 +16,7 @@
 
   .back {
     height: 60px;
-    padding-left: 20px;
+    padding-left: 10px;
     display: flex;
     align-items: center;
     color: #3f80ea;

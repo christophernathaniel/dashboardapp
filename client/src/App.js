@@ -90,6 +90,27 @@ const App = () => {
           </div>
         </nav>
 
+        <nav className="mobile-sidenav">
+          <li class="sidenav-item">
+            <NavLink to="/dashboard">
+              <MdOutlineSpaceDashboard />
+              <span>Dashboard</span>
+            </NavLink>
+          </li>
+          <li class="sidenav-item">
+            <NavLink to="/card">
+              <MdOutlineSpaceDashboard />
+              <span>Finance</span>
+            </NavLink>
+          </li>
+          <li class="sidenav-item">
+            <NavLink to="/bookmark">
+              <MdOutlineSpaceDashboard />
+              <span>Bookmarks</span>
+            </NavLink>
+          </li>
+        </nav>
+
         <div class="main">
           <nav class="navbar navbar-expand navbar-light navbar-bg">
             <div

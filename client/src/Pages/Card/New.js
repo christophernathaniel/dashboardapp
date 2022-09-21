@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import "./New.scss";
 
@@ -9,10 +9,17 @@ const New = (props) => {
   const [itemBank, setItemBank] = useState("");
   const [itemColor, setItemColor] = useState("blue");
   const [totalInAccount, setTotalInAccount] = useState(0);
+  const [animateClass, setAnimateClass] = useState(false);
 
   const generateKey = (pre) => {
     return `${pre}_${new Date().getTime()}`;
   };
+
+  useEffect(() => {
+    setTimeout(() => {
+      setAnimateClass(true);
+    }, 200);
+  }, []);
 
   // Create New Card
   async function newItem(event) {
@@ -44,22 +51,30 @@ const New = (props) => {
     const data = await req.json();
 
     if (data.status === "ok") {
+      setTimeout(() => {
+        props.setShowNew(false);
+      }, 300);
+      setAnimateClass(false);
+
       props.handleNew(item);
-      props.setShowNew(false);
     }
   }
 
   return (
-    <div class="editModel-c ">
+    <div className={`editModel-c animate-${animateClass}`}>
       <div class="editModel">
         <form onSubmit={newItem}>
           <div class="editModelHeader">
             <div
               onClick={() => {
-                props.setShowNew(false);
+                setTimeout(() => {
+                  props.setShowNew(false);
+                }, 300);
+                setAnimateClass(false);
               }}
+              className="add-button"
             >
-              Close
+              Cancel
             </div>
             <div class="editModelTitle">New Card</div>
             <input type="submit" class="add-button" value="Add Card" />

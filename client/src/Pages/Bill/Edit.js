@@ -3,6 +3,8 @@ import "flatpickr/dist/themes/material_blue.css";
 import Flatpickr from "react-flatpickr";
 
 const Edit = (props) => {
+  const [animateClass, setAnimateClass] = useState(false);
+
   const [itemName, setItemName] = useState(
     props.bill.data[props.editItem].name
   );
@@ -34,6 +36,12 @@ const Edit = (props) => {
     return `${pre}_${new Date().getTime()}`;
   };
 
+  useEffect(() => {
+    setTimeout(() => {
+      setAnimateClass(true);
+    }, 200);
+  }, []);
+
   // useEffect(() => {
   //   props.setBill(props.bill);
   // }, [setItemName]);
@@ -53,28 +61,27 @@ const Edit = (props) => {
 
     props.setBill(props.bill);
 
-    props.setEditItem(false);
-
     props.updateEdit(props.bill.data[props.editItem], props.editItem);
+
+    setAnimateClass(false);
+
+    setTimeout(() => {
+      props.setEditItem(false);
+    }, 1000);
   }
 
   return (
-    <div
-      class="editModel-c"
-      // onClick={(e) => {
-      //   props.setEditItem(
-      //     e.target.classList.contains("editModel-c") ? false : props.editItem
-      //   );
-      // }}
-    >
+    <div class="editModel-c" className={`editModel-c animate-${animateClass}`}>
       <div class="editModel">
         <form onSubmit={newItem}>
           <div class="editModelHeader">
             <div
               class="add-button"
               onClick={(e) => {
-                props.setEditItem(false);
-                console.log(props.editItem);
+                setAnimateClass(false);
+                setTimeout(() => {
+                  props.setEditItem(false);
+                }, 1000);
               }}
             >
               Cancel

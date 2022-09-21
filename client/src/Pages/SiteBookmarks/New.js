@@ -55,10 +55,12 @@ const New = (props) => {
           <div class="editModelHeader">
             <div
               onClick={() => {
-                props.setShowNew(false);
+                setTimeout(() => {
+                  props.setShowNew(false);
+                }, 1000);
               }}
             >
-              Close
+              Cancel
             </div>
             <div class="editModelTitle">New Bookmark</div>
             <input type="submit" class="add-button" value="Add Bookmark" />

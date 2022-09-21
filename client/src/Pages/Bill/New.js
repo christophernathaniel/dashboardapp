@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import "flatpickr/dist/themes/material_blue.css";
 import Flatpickr from "react-flatpickr";
@@ -14,6 +14,7 @@ const New = (props) => {
   const [itemIncoming, setItemIncoming] = useState("Outgoing");
   const [selectedDay, setSelectedDay] = useState("");
   const [card, setCard] = useState();
+  const [animateClass, setAnimateClass] = useState(false);
 
   const generateKey = (pre) => {
     return `${pre}_${new Date().getTime()}`;
@@ -44,12 +45,26 @@ const New = (props) => {
     props.setNewItem(false);
   }
 
+  useEffect(() => {
+    setTimeout(() => {
+      setAnimateClass(true);
+    }, 300);
+  }, []);
+
   return (
-    <div class="editModel-c">
+    <div class="editModel-c" className={`editModel-c animate-${animateClass}`}>
       <div class="editModel">
         <form onSubmit={newItem}>
           <div class="editModelHeader">
-            <div class="add-button" onClick={() => props.setNewItem(false)}>
+            <div
+              class="add-button"
+              onClick={() => {
+                setTimeout(() => {
+                  props.setNewItem(false);
+                }, 300);
+                setAnimateClass(false);
+              }}
+            >
               Cancel
             </div>
             <div class="editModelTitle">Add Bill</div>
