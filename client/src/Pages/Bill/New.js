@@ -40,94 +40,96 @@ const New = (props) => {
       ],
     };
 
-    // console.log("------");
-    // console.log(props.bill);
-    // console.log(item);
-
-    // props.bill["data"] = item.data;
-
-    // console.log(props.bill);
-
-    // props.setBill(props.bill);
-
     props.handleNew(item.data);
+    props.setNewItem(false);
   }
 
   return (
-    <form onSubmit={newItem} className="new-form table">
-      <div>
-        <div>
-          <div></div>
-          <div>
-            <input
-              type="text"
-              placeholder="Name"
-              value={itemName}
-              onChange={(e) => setItemName(e.target.value)}
-            />
-          </div>
-          <div>
-            <input
-              type="text"
-              placeholder="Per Month"
-              value={itemPm}
-              onChange={(e) => setItemPm(e.target.value)}
-            />
-          </div>
-          <div>
-            <input
-              type="text"
-              placeholder="Total Remaining"
-              value={itemRemaining}
-              onChange={(e) => setItemRemaining(e.target.value)}
-            />
+    <div class="editModel-c">
+      <div class="editModel">
+        <form onSubmit={newItem}>
+          <div class="editModelHeader">
+            <div class="add-button" onClick={() => props.setNewItem(false)}>
+              Cancel
+            </div>
+            <div class="editModelTitle">Add Bill</div>
+            <input type="submit" class="add-button" value="Create" />
           </div>
 
-          <div>
-            <select
-              type="text"
-              placeholder="Category"
-              value={itemCategory}
-              onChange={(e) => setItemCategory(e.target.value)}
-            >
-              <option value="">Uncategorized</option>
-              <option value="Essential">Essential</option>
-              <option value="Non-Essential">Non-Essential</option>
-              <option value="Consumable">Consumable</option>
-              <option value="Entertainment">Entertainment</option>
-              <option value="Health">Health</option>
-              <option value="Holiday">Holiday</option>
-              <option value="Business">Business</option>
-              <option value="Loan">Loan</option>
-            </select>
-          </div>
+          <div class="editModelBody">
+            <label>
+              <span>Bill Name</span>
+              <input
+                type="text"
+                placeholder="Bill Name"
+                value={itemName}
+                onChange={(e) => setItemName(e.target.value)}
+              />
+            </label>
+            <div class="group">
+              <label>
+                <span>Monthly Amount</span>
+                <input
+                  type="text"
+                  placeholder="10.99"
+                  value={itemPm}
+                  onChange={(e) => setItemPm(e.target.value)}
+                />
+              </label>
+              <label>
+                <span>Remaining</span>
+                <input
+                  type="text"
+                  placeholder="100.00"
+                  value={itemRemaining}
+                  onChange={(e) => setItemRemaining(e.target.value)}
+                />
+              </label>
+            </div>
+            <label>
+              <span>Category</span>
+              <select
+                type="text"
+                placeholder="Category"
+                value={itemCategory}
+                onChange={(e) => setItemCategory(e.target.value)}
+              >
+                <option value="">Uncategorized</option>
+                <option value="Essential">Essential</option>
+                <option value="Non-Essential">Non-Essential</option>
+                <option value="Consumable">Consumable</option>
+                <option value="Entertainment">Entertainment</option>
+                <option value="Health">Health</option>
+                <option value="Holiday">Holiday</option>
+                <option value="Business">Business</option>
+                <option value="Loan">Loan</option>
+              </select>
+            </label>
+            <label>
+              <span>Instruction</span>
 
-          <div>
-            <select
-              type="text"
-              placeholder="Incoming / Outgoing"
-              value={itemIncoming}
-              onChange={(e) => setItemIncoming(e.target.value)}
-            >
-              <option value="Outgoing">Outgoing</option>
-              <option value="Incoming">Incoming</option>
-            </select>
-          </div>
-          <div></div>
+              <select
+                type="text"
+                placeholder="Incoming / Outgoing"
+                value={itemIncoming}
+                onChange={(e) => setItemIncoming(e.target.value)}
+              >
+                <option value="Outgoing">Outgoing</option>
+                <option value="Incoming">Incoming</option>
+              </select>
+            </label>
+            <label>
+              <span>Start Date</span>
 
-          <div>
-            <Flatpickr
-              value={selectedDay}
-              onChange={(date) => setSelectedDay(date)}
-            />
+              <Flatpickr
+                value={selectedDay}
+                onChange={(date) => setSelectedDay(date)}
+              />
+            </label>
           </div>
-
-          <div>
-            <input type="submit" class="add-button" value="Add Monthly Bill" />
-          </div>
-        </div>
+        </form>
       </div>
-    </form>
+    </div>
   );
 };
 

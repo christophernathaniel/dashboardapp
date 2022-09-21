@@ -4,6 +4,10 @@
   top: 0;
   width: calc(100% - 260px);
 
+  .scrollModel {
+    padding-bottom: 60px;
+  }
+
   @media (max-width: 991.98px) {
     width: 100%;
   }
@@ -95,6 +99,12 @@
         width: 60px;
         min-width: 60px;
         max-width: 60px;
+
+        @media (max-width: 700px) {
+          width: 40px;
+          min-width: 40px;
+          max-width: 40px;
+        }
       }
 
       &:nth-child(2) {
@@ -112,7 +122,17 @@
         max-width: 120px;
       }
 
+      &:nth-child(4) {
+        @media (max-width: 1100px) {
+          display: none;
+        }
+      }
+
       &:nth-child(5) {
+        @media (max-width: 1470px) {
+          display: none;
+        }
+
         width: 140px;
         min-width: 140px;
         max-width: 140px;
@@ -121,14 +141,26 @@
       &:nth-child(6) {
         width: 180px;
         min-width: 180px;
+
+        @media (max-width: 1470px) {
+          display: none;
+        }
       }
 
       &:nth-child(7) {
         width: 80px;
         min-width: 80px;
+
+        @media (max-width: 700px) {
+          display: none;
+        }
       }
 
       &:nth-child(8) {
+        @media (max-width: 1470px) {
+          display: none;
+        }
+
         width: 100px;
         min-width: 100px;
       }
@@ -160,29 +192,32 @@
     display: table-cell;
   }
 
-  .add-button,
-  .delete-button,
-  .edit-button {
-    appearance: none;
-    background-color: transparent;
-    padding-left: 20px;
-    display: flex;
-    align-items: center;
-    border: none;
+  @media (max-width: 700px) {
+    .table tr {
+      border-bottom: 1px solid #f1f1f1;
+    }
+    .table thead {
+      display: none;
+    }
 
-    width: auto !important;
-  }
+    .table > * > * {
+      display: flex;
+      flex-wrap: wrap;
+      border: none;
+    }
 
-  .add-button {
-    color: #3f80ea;
-  }
+    .table > * > * > * {
+      display: flex;
+      flex-wrap: wrap;
+      border: none;
 
-  .delete-button {
-    color: #f73d52;
-  }
+      &:nth-child(1n + 3) {
+        width: 100%;
 
-  .edit-button {
-    color: #f26522;
+        min-width: auto;
+        max-width: 1000px;
+      }
+    }
   }
 
   .is-active-false {
@@ -201,11 +236,11 @@
 
   .table {
     .titleTr {
-      width: 20px;
-      padding: 10px;
+      width: 0px;
+      padding: 10px 0px;
       font-weight: 600;
       display: block;
-      margin-top: 20px;
+      margin-top: 0px;
 
       > * {
         display: block;
@@ -224,4 +259,15 @@
   //       display: table-cell;
   //     }
   //   }
+}
+
+.floatingColumn {
+  position: fixed;
+  bottom: 0;
+  padding-left: 40px;
+  padding-right: 40px;
+  /* left: 0px; */
+  margin-left: -40px;
+  background-color: white;
+  border-top: 1px solid #f1f1f1;
 }

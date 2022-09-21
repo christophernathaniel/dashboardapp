@@ -1,0 +1,34 @@
+.add-button,
+.delete-button,
+.edit-button {
+  appearance: none;
+  background-color: transparent;
+  padding-left: 20px;
+  display: flex;
+  align-items: center;
+  border: none;
+
+  width: auto !important;
+}
+
+.add-button {
+  color: #3f80ea;
+  cursor: pointer;
+}
+
+.delete-button {
+  color: #f73d52;
+  cursor: pointer;
+}
+
+.edit-button {
+  color: #f26522;
+  cursor: pointer;
+}
+
+.back {
+  cursor: pointer;
+}
+
+.add-large-button {
+}

@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/user.model");
 const Card = require("../models/card.model");
+const Bookmark = require("../models/bookmark.model");
 const Bill = require("../models/bill.model");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
@@ -246,6 +247,120 @@ router.post("/bill/create", async (req, res) => {
   } catch (error) {
     console.log(error);
     res.json({ status: "error", error: "invalid token" });
+  }
+});
+
+//**** BOOKMARK ------------------------------------------ */
+
+// Retrieve
+router.get("/bookmark", async (req, res) => {
+  const token = req.headers["x-access-token"];
+
+  try {
+    const decoded = jwt.verify(token, secret);
+    const uuid = decoded.uuid;
+    const bookmark = await Bookmark.find({ user_uuid: uuid });
+
+    console.log("retrieve:" + uuid);
+
+    return res.json({ status: "ok", data: bookmark });
+  } catch (error) {
+    console.log(error);
+    res.json({ status: "error", error: "invalid token" });
+  }
+});
+
+// Update
+router.post("/bookmark/update", async (req, res) => {
+  const token = req.headers["x-access-token"];
+  const uuid = req.headers["uuid"];
+
+  try {
+    const decoded = jwt.verify(token, secret);
+    const user_uuid = decoded.uuid;
+    await Bookmark.updateOne(
+      { uuid: uuid, user_uuid: user_uuid },
+      {
+        $set: {
+          data: req.body.bookmark,
+          name: req.body.name,
+          category: req.body.category,
+          active: req.body.active,
+          url: req.body.url,
+        },
+      }
+    );
+
+    console.log(
+      "tried to update /bookmark/update:" +
+        uuid +
+        ":" +
+        user_uuid +
+        ":" +
+        req.body.bookmark
+    );
+
+    return res.json({ status: "ok" });
+  } catch (error) {
+    console.log(error);
+    res.json({ status: "error", error: "invalid token" });
+  }
+});
+
+// Create
+router.post("/bookmark/create", async (req, res) => {
+  const token = req.headers["x-access-token"];
+
+  try {
+    const decoded = jwt.verify(token, secret);
+    const user_uuid = decoded.uuid;
+
+    const bookmark = await Bookmark.create({
+      uuid: req.body.uuid,
+      user_uuid: user_uuid,
+      name: req.body.name,
+      category: req.body.category,
+      color: req.body.color,
+      active: req.body.active,
+      url: req.body.url,
+      data: [],
+    });
+
+    console.log(
+      "tried to create new:" +
+        user_uuid +
+        ":" +
+        user_uuid +
+        ":" +
+        req.body.bookmark
+    );
+
+    res.json({ status: "ok" });
+  } catch (err) {
+    res.json({ status: "error" });
+  }
+});
+
+// DELETE
+router.post("/bookmark/delete", async (req, res) => {
+  const token = req.headers["x-access-token"];
+
+  console.log("delete request");
+
+  try {
+    const decoded = jwt.verify(token, secret);
+    const user_uuid = decoded.uuid;
+
+    const bookmark = await Bookmark.deleteOne({
+      uuid: req.body.uuid,
+      user_uuid: user_uuid,
+    });
+
+    console.log("deleted");
+
+    res.json({ status: "ok" });
+  } catch (err) {
+    res.json({ status: "error" });
   }
 });
 

@@ -4,7 +4,11 @@ import Login from "./Pages/Login";
 import Register from "./Pages/Register";
 import Dashboard from "./Pages/Dashboard/Index";
 import Card from "./Pages/Card/Index";
+import Bookmark from "./Pages/SiteBookmarks/Index";
 import Bill from "./Pages/Bill/Index";
+
+import "./Pages/EditModel.scss";
+import "./Pages/Buttons.scss";
 
 import { MdOutlineSpaceDashboard, MdOutlineMenu } from "react-icons/md";
 
@@ -72,6 +76,15 @@ const App = () => {
                 <li class="sidebar-header">Events</li>
                 <li class="sidebar-header">Account</li>
                 <li class="sidebar-header">Site Bookmarks</li>
+                <div class="simplebar-wrapper">
+                  <li class="sidebar-item">
+                    <NavLink to="/bookmark">
+                      <MdOutlineSpaceDashboard />
+                      Bookmarks
+                      <span class="badge badge-sidebar-primary">5</span>
+                    </NavLink>
+                  </li>
+                </div>
               </ul>
             </div>
           </div>
@@ -125,6 +138,7 @@ const App = () => {
             <Route path="/dashboard" exact element={<Dashboard />} />
             <Route path="/card" element={<Card />} />
             <Route path="/card/*" exact element={<Bill />} />
+            <Route path="/bookmark" exact element={<Bookmark />} />
           </Routes>
         </div>
       </BrowserRouter>

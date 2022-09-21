@@ -4,11 +4,11 @@ import "./New.scss";
 
 const New = (props) => {
   const [itemName, setItemName] = useState("");
-  const [cardHolderName, setCardHolderName] = useState("");
+
   const [itemActive, setItemActive] = useState(0);
-  const [itemBank, setItemBank] = useState("");
+  const [itemCategory, setItemCategory] = useState("");
+  const [itemUrl, setItemUrl] = useState("");
   const [itemColor, setItemColor] = useState("blue");
-  const [totalInAccount, setTotalInAccount] = useState(0);
 
   const generateKey = (pre) => {
     return `${pre}_${new Date().getTime()}`;
@@ -25,14 +25,13 @@ const New = (props) => {
       uuid: key,
       name: itemName,
       active: 1,
-      cardHolderName: cardHolderName,
-      totalInAccount: totalInAccount,
-      bank: itemBank,
+      category: itemCategory,
       color: itemColor,
+      url: itemUrl,
       data: [{}],
     };
 
-    const req = await fetch(window.getfetch + "api/card/create", {
+    const req = await fetch(window.getfetch + "api/bookmark/create", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -61,12 +60,12 @@ const New = (props) => {
             >
               Close
             </div>
-            <div class="editModelTitle">New Card</div>
-            <input type="submit" class="add-button" value="Add Card" />
+            <div class="editModelTitle">New Bookmark</div>
+            <input type="submit" class="add-button" value="Add Bookmark" />
           </div>
           <div className="editModelBody">
             <label>
-              <span>Card Name</span>
+              <span>Bookmark Name</span>
               <input
                 type="text"
                 placeholder="Name"
@@ -75,25 +74,26 @@ const New = (props) => {
               />
             </label>
             <label>
-              <span>Bank Name</span>
+              <span>Category</span>
               <input
                 type="text"
-                placeholder="Bank"
-                value={itemBank}
-                onChange={(e) => setItemBank(e.target.value)}
+                placeholder="Category"
+                value={itemCategory}
+                onChange={(e) => setItemCategory(e.target.value)}
               />
             </label>
             <label>
-              <span>Cardholder Name</span>
+              <span>Website URL</span>
               <input
                 type="text"
-                placeholder="Cardholder Full Name"
-                value={cardHolderName}
-                onChange={(e) => setCardHolderName(e.target.value)}
+                placeholder="Website URL"
+                value={itemUrl}
+                onChange={(e) => setItemUrl(e.target.value)}
               />
             </label>
+
             <label>
-              <span>Card Colour</span>
+              <span>Label Colour</span>
               <input
                 type="text"
                 placeholder="Color"

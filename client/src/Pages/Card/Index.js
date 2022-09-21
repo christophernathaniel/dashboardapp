@@ -14,6 +14,7 @@ const Card = () => {
   const [bill, setBill] = useState(false);
   const [showNew, setShowNew] = useState(false);
   const [remainingTotal, setRemainingTotal] = useState(0);
+  const [confDel, setConfDel] = useState(false);
 
   const [card, setCard] = useState([
     {
@@ -144,62 +145,82 @@ const Card = () => {
   return (
     <div className="creditCardModel scrollModel">
       <div className="ui-width">
-        <h1>My Cards</h1>
+        <h1>Account Cards</h1>
       </div>
 
       <div className="ui-width creditCardList">
-        {/* <h1>Dashboard: {dashboard || "No dashboard found"}</h1> */}
+        <div
+          onClick={() => {
+            setShowNew(!showNew);
+          }}
+          className="add-new-card"
+        >
+          <div className="creditCardInner addNew">Add New Card</div>
+        </div>
+
         {card?.map((item, index) => (
-          <div
-            key={index}
-            className={
-              "creditCard color-" + item.color + " active-" + item.active
-            }
-          >
-            <div className="creditCardInner">
-              <div className="left">
-                <div className="top">
-                  <div className="bank">{item.bank}</div>
-                </div>
-
-                <div className="middle">
-                  <div className="totalinaccount">
-                    <span>Total:</span>£{item.totalInAccount}
+          <>
+            <div
+              key={index}
+              className={
+                "creditCard color-" + item.color + " active-" + item.active
+              }
+            >
+              <div className="creditCardInner blue">
+                <div className="left">
+                  <div className="top">
+                    <div className="bank">{item.bank}</div>
                   </div>
-                  <div className="totalRemaining">
-                    <span>Spare:</span> £{item.totalInAccount - item.totalPm}
+
+                  <div className="middle">
+                    <div className="totalinaccount">
+                      <span>Total:</span>£{item.totalInAccount}
+                    </div>
+                    <div className="totalRemaining">
+                      <span>Spare:</span> £{item.totalInAccount - item.totalPm}
+                    </div>
+                  </div>
+
+                  <div className="bottom">
+                    <div className="cardNumber">**** **** **** ****</div>
+                    <div className="cardholdername">{item.cardHolderName}</div>
                   </div>
                 </div>
-
-                <div className="bottom">
-                  <div className="cardNumber">**** **** **** ****</div>
-                  <div className="cardholdername">{item.cardHolderName}</div>
+                <div class="right">
+                  <div onClick={() => setBill(item)}>
+                    <ImCog size={18} />
+                  </div>
+                  <div onClick={() => setConfDel(true)}>
+                    <HiTrash size={24} />
+                  </div>
                 </div>
               </div>
-              <div class="right">
-                <div onClick={() => setBill(item)}>
-                  <ImCog size={18} />
-                </div>
-                <div
-                  onClick={() => {
-                    removeItem(item.uuid, index);
-                  }}
-                >
-                  <HiTrash size={24} />
-                </div>
-              </div>
+              <div className="name">{item.name}</div>
             </div>
-            <div className="name">{item.name}</div>
-          </div>
-        ))}
-      </div>
 
-      <div
-        onClick={() => {
-          setShowNew(!showNew);
-        }}
-      >
-        Add New Card
+            {confDel !== false && (
+              <div class="alertModel-c">
+                <div class="alertModel">
+                  <div class="alertBody">
+                    <div class="alertTitle">Card Deletion</div>
+                    Would you like to delete this card?
+                  </div>
+                  <div class="alertGroup">
+                    <div onClick={() => setConfDel(false)}>Cancel</div>
+                    <div
+                      onClick={() => {
+                        removeItem(item.uuid, index);
+                        setConfDel(false);
+                      }}
+                    >
+                      Delete
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </>
+        ))}
       </div>
 
       {showNew && (

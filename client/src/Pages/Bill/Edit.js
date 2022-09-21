@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import "flatpickr/dist/themes/material_blue.css";
 import Flatpickr from "react-flatpickr";
 
-import "./Edit.scss";
-
 const Edit = (props) => {
   const [itemName, setItemName] = useState(
     props.bill.data[props.editItem].name
@@ -28,6 +26,9 @@ const Edit = (props) => {
   const [selectedDay, setSelectedDay] = useState(
     props.bill.data[props.editItem].startDate
   );
+  const [billDate, setBillDate] = useState(
+    props.bill.data[props.editItem].billDate
+  );
 
   const generateKey = (pre) => {
     return `${pre}_${new Date().getTime()}`;
@@ -48,6 +49,7 @@ const Edit = (props) => {
     props.bill.data[props.editItem].incoming = itemIncoming;
     props.bill.data[props.editItem].remaining = itemRemaining;
     props.bill.data[props.editItem].startDate = selectedDay;
+    props.bill.data[props.editItem].billDate = billDate;
 
     props.setBill(props.bill);
 
@@ -163,18 +165,32 @@ const Edit = (props) => {
                 <option value="Incoming">Incoming</option>
               </select>
             </label>
-
-            <div class="label">
-              <span>Start Date</span>
-              <Flatpickr
-                value={selectedDay}
-                onChange={(date) => setSelectedDay(date)}
-              />
-              {selectedDay && (
-                <div class="add-button" onClick={() => setSelectedDay(null)}>
-                  Clear
-                </div>
-              )}
+            <div class="group">
+              <div class="label">
+                <span>Start Date</span>
+                <Flatpickr
+                  value={selectedDay}
+                  onChange={(date) => setSelectedDay(date)}
+                />
+                {selectedDay && (
+                  <div class="add-button" onClick={() => setSelectedDay(null)}>
+                    Clear
+                  </div>
+                )}
+              </div>
+              <div class="label">
+                <span>Bill Date</span>
+                <Flatpickr
+                  year
+                  value={selectedDay}
+                  onChange={(date) => setSelectedDay(date)}
+                />
+                {selectedDay && (
+                  <div class="add-button" onClick={() => setSelectedDay(null)}>
+                    Clear
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </form>

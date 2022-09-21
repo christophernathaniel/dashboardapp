@@ -23,6 +23,11 @@ const Bill = (props) => {
   const [edit_cardHolderName, setEdit_cardHolderName] = useState(false);
   const [edit_cardBank, setEdit_cardBank] = useState(false);
   const [editItem, setEditItem] = useState(false);
+  const [newItem, setNewItem] = useState(false);
+  const [confDel, setConfDel] = useState(false);
+
+  const [totalPerMonth, setTotalPerMonth] = useState(0);
+  const [totalRemaining, setTotalRemaining] = useState(0);
 
   useEffect(() => {
     props.bill.data = [...props.bill.data].sort((a, b) =>
@@ -40,7 +45,25 @@ const Bill = (props) => {
     setCard(props.card);
     setBill(props.bill);
     setShowNew(false);
-  }, [props.bill]);
+  }, [props.bill, bill.data]);
+
+  useEffect(() => {
+    setTotalPerMonth(
+      props.bill.data
+        .reduce((x, y) => {
+          return y.active ? Number(x) + Number(y.pm) : Number(x);
+        }, 0)
+        .toFixed(2)
+    );
+
+    setTotalRemaining(
+      props.bill.data
+        .reduce((x, y) => {
+          return Number(x) + Number(y.remaining);
+        }, 0)
+        .toFixed(2)
+    );
+  }, [props.bill, card, bill.data]);
 
   const handleNew = (data) => {
     let newArr = [...card]; // Create a new array from Card
@@ -257,6 +280,11 @@ const Bill = (props) => {
             </div>
           </div>
         </div>
+
+        <div class="newItem" onClick={() => setNewItem(true)}>
+          New Bill
+        </div>
+
         <div class="ui-width">
           {/* <h1>Dashboard: {dashboard || "No dashboard found"}</h1> */}
 
@@ -335,7 +363,7 @@ const Bill = (props) => {
                           <button
                             className="delete-button"
                             onClick={() => {
-                              removeItem(index);
+                              setConfDel(true);
                             }}
                           >
                             Delete
@@ -343,8 +371,42 @@ const Bill = (props) => {
                         </div>
                       </td>
                     </tr>
+
+                    {confDel !== false && (
+                      <div class="alertModel-c">
+                        <div class="alertModel">
+                          <div class="alertBody">
+                            <div class="alertTitle">Bill Deletion</div>
+                            Would you like to delete this bill?
+                          </div>
+                          <div class="alertGroup">
+                            <div onClick={() => setConfDel(false)}>Cancel</div>
+                            <div
+                              onClick={(index) => {
+                                removeItem(index);
+                                setConfDel(false);
+                              }}
+                            >
+                              Delete
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </>
                 ))}
+
+              <tr className="floatingColumn">
+                <td scope="col"></td>
+                <td scope="col"></td>
+                <td scope="col">£{totalPerMonth}</td>
+                <td scope="col">£{totalRemaining}</td>
+                <td scope="col"></td>
+                <td scope="col"></td>
+                <td scope="col"></td>
+                <td scope="col"></td>
+                <td scope="col"></td>
+              </tr>
             </tbody>
           </table>
 
@@ -358,14 +420,17 @@ const Bill = (props) => {
             />
           )}
 
-          <New
-            bill={bill}
-            setBill={setBill}
-            card={card}
-            setCard={setCard}
-            uuid={props.bill.uuid}
-            handleNew={handleNew}
-          />
+          {newItem !== false && (
+            <New
+              bill={bill}
+              setBill={setBill}
+              card={card}
+              setCard={setCard}
+              uuid={props.bill.uuid}
+              handleNew={handleNew}
+              setNewItem={setNewItem}
+            />
+          )}
         </div>
 
         {/* <div
