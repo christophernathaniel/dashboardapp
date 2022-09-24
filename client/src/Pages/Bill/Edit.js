@@ -39,7 +39,7 @@ const Edit = (props) => {
   useEffect(() => {
     setTimeout(() => {
       setAnimateClass(true);
-    }, 200);
+    }, 1);
   }, []);
 
   // useEffect(() => {
@@ -67,7 +67,7 @@ const Edit = (props) => {
 
     setTimeout(() => {
       props.setEditItem(false);
-    }, 1000);
+    }, 300);
   }
 
   return (
@@ -81,7 +81,7 @@ const Edit = (props) => {
                 setAnimateClass(false);
                 setTimeout(() => {
                   props.setEditItem(false);
-                }, 1000);
+                }, 300);
               }}
             >
               Cancel

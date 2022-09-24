@@ -9,9 +9,42 @@
 
   height: 100%;
 
+  .cardDetails {
+    border-bottom: 1px solid #f1f1f1;
+  }
+
+  .editCard-c {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 20px;
+
+    .title-edit {
+      right: 0px;
+    }
+
+    .editCard {
+      min-width: 180px;
+
+      display: flex;
+
+      label {
+        margin-right: 20px;
+      }
+    }
+  }
   .editCard {
     position: relative;
     width: max-content;
+  }
+
+  .editCard-totalinAccount {
+    font-size: 28px;
+
+    display: flex;
+    &:before {
+      content: "£";
+    }
   }
 
   .back {
@@ -89,6 +122,10 @@
       border: none;
     }
 
+    tr {
+      position: relative;
+    }
+
     > * > * > * {
       &:nth-child(1) {
         width: 60px;
@@ -163,8 +200,14 @@
       &:nth-child(9) {
         width: 180px;
         min-width: 180px;
-
         justify-content: flex-end;
+
+        @media (max-width: 500px) {
+          > div {
+            top: 20px;
+            position: absolute;
+          }
+        }
 
         > div {
           display: flex;
@@ -185,6 +228,12 @@
   }
   .table > * > * > * {
     display: table-cell;
+  }
+
+  .table > :not(caption) > * > * {
+    @media (max-width: 500px) {
+      padding: 0.2rem;
+    }
   }
 
   @media (max-width: 700px) {
@@ -213,6 +262,10 @@
         max-width: 1000px;
       }
     }
+
+    .table .list-item {
+      padding-top: 20px;
+    }
   }
 
   .is-active-false {
@@ -237,6 +290,17 @@
       display: block;
       margin-top: 0px;
 
+      @media (max-width: 500px) {
+        position: sticky;
+        display: block;
+        background-color: #f8f8f8;
+        top: 0px;
+        width: 100vw;
+        margin-left: -1.5rem;
+        padding-left: 1.5rem;
+        z-index: 5;
+      }
+
       > * {
         display: block;
         border: none;
@@ -257,12 +321,12 @@
 }
 
 .floatingColumn {
-  position: fixed;
-  bottom: 0;
-  padding-left: 40px;
-  padding-right: 40px;
-  /* left: 0px; */
-  margin-left: -40px;
-  background-color: white;
-  border-top: 1px solid #f1f1f1;
+  // position: fixed;
+  // bottom: 0;
+  // padding-left: 40px;
+  // padding-right: 40px;
+  // /* left: 0px; */
+  // margin-left: -40px;
+  // background-color: white;
+  // border-top: 1px solid #f1f1f1;
 }

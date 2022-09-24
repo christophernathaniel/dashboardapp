@@ -8,7 +8,9 @@ import "./Index.scss";
 
 import { HiPencilAlt } from "react-icons/hi";
 import { TiTick } from "react-icons/ti";
-import { MdArrowBackIos } from "react-icons/md";
+import { MdArrowBackIos, MdAddCircleOutline } from "react-icons/md";
+import { AiOutlineInfoCircle } from "react-icons/ai";
+import { HiTrash } from "react-icons/hi";
 
 import moment from "moment";
 
@@ -19,7 +21,6 @@ const Bill = (props) => {
   const [showNew, setShowNew] = useState(false);
   const [animateClass, setAnimateClass] = useState(false);
 
-  const [y, setY] = useState(window.scrollY);
   const [scrollAesthetic, setScrollAesthetic] = useState(false);
 
   const [edit_cardName, setEdit_cardName] = useState(false);
@@ -176,7 +177,7 @@ const Bill = (props) => {
   useEffect(() => {
     setTimeout(() => {
       setAnimateClass(true);
-    }, 300);
+    }, 1);
   }, []);
 
   return (
@@ -195,8 +196,8 @@ const Bill = (props) => {
         </div>
       </div>
       <div class="scrollModel" onScroll={controlDirection}>
-        <div class="ui-width">
-          <div class="editCard">
+        <div class="ui-width cardDetails">
+          <div class="editCard editCard-title">
             <h1>
               {!edit_cardName && <div>{props.bill.name}</div>}
               {edit_cardName && (
@@ -219,7 +220,7 @@ const Bill = (props) => {
             </div>
           </div>
 
-          <div class="editCard">
+          <div class="editCard editCard-totalinAccount">
             {!edit_cardTotalInAccount && <div>{props.bill.totalInAccount}</div>}
             {edit_cardTotalInAccount && (
               <input
@@ -242,69 +243,66 @@ const Bill = (props) => {
               )}
             </div>
           </div>
-
-          <div class="editCard">
-            {!edit_cardHolderName && <div>{props.bill.cardHolderName}</div>}
-            {edit_cardHolderName && (
-              <input
-                onChange={(e) => changeCardHolderName(e.target.value)}
-                value={props.bill.cardHolderName}
-                className="edit"
-              />
-            )}
-
-            <div
-              className="title-edit"
-              onClick={() => setEdit_cardHolderName(!edit_cardHolderName)}
-            >
-              {!edit_cardHolderName ? (
-                <HiPencilAlt size={20} />
-              ) : (
-                <TiTick size={20} />
+          <div className="editCard-c">
+            <div class="editCard editCard-cardHolderName">
+              {!edit_cardHolderName && <div>{props.bill.cardHolderName}</div>}
+              {edit_cardHolderName && (
+                <input
+                  onChange={(e) => changeCardHolderName(e.target.value)}
+                  value={props.bill.cardHolderName}
+                  className="edit"
+                />
               )}
-            </div>
-          </div>
 
-          <div class="editCard">
-            <label className="checkbox">
-              <input
-                type="checkbox"
-                onChange={(e) => changeActive(!props.bill.active)}
-                checked={props.bill.active === true}
-              />
+              <div
+                className="title-edit"
+                onClick={() => setEdit_cardHolderName(!edit_cardHolderName)}
+              >
+                {!edit_cardHolderName ? (
+                  <HiPencilAlt size={20} />
+                ) : (
+                  <TiTick size={20} />
+                )}
+              </div>
+            </div>
+
+            <div class="editCard editCard-cardActive">
+              <label className="checkbox">
+                <input
+                  type="checkbox"
+                  onChange={(e) => changeActive(!props.bill.active)}
+                  checked={props.bill.active === true}
+                />
+              </label>
               {props.bill.active ? (
                 <div>Card Active</div>
               ) : (
                 <div>Card Inactive</div>
               )}
-            </label>
-          </div>
+            </div>
 
-          <div class="editCard">
-            {!edit_cardBank && <div>{props.bill.bank}</div>}
-            {edit_cardBank && (
-              <input
-                onChange={(e) => changeBank(e.target.value)}
-                value={props.bill.bank}
-                className="edit"
-              />
-            )}
-
-            <div
-              className="title-edit"
-              onClick={() => setEdit_cardBank(!edit_cardBank)}
-            >
-              {!edit_cardBank ? (
-                <HiPencilAlt size={20} />
-              ) : (
-                <TiTick size={20} />
+            <div class="editCard editCard-cardBank">
+              {!edit_cardBank && <div>{props.bill.bank}</div>}
+              {edit_cardBank && (
+                <input
+                  onChange={(e) => changeBank(e.target.value)}
+                  value={props.bill.bank}
+                  className="edit"
+                />
               )}
+
+              <div
+                className="title-edit"
+                onClick={() => setEdit_cardBank(!edit_cardBank)}
+              >
+                {!edit_cardBank ? (
+                  <HiPencilAlt size={20} />
+                ) : (
+                  <TiTick size={20} />
+                )}
+              </div>
             </div>
           </div>
-        </div>
-
-        <div class="newItem" onClick={() => setNewItem(true)}>
-          New Bill
         </div>
 
         <div class="ui-width">
@@ -334,7 +332,10 @@ const Bill = (props) => {
                       </tr>
                     )}
                     {((prevCategory = item.category), null)}
-                    <tr key={index} className={"is-active-" + item.active}>
+                    <tr
+                      key={index}
+                      className={"list-item is-active-" + item.active}
+                    >
                       <td>
                         <label class="checkbox">
                           <input
@@ -347,7 +348,7 @@ const Bill = (props) => {
                         </label>
                       </td>
                       <td>{item.name}</td>
-                      <td>£{item.pm}</td>
+                      <td>{item.pm && <>£{item.pm}</>}</td>
                       <td>{item.remaining && <div>£{item.remaining}</div>}</td>
                       <td>{item.category}</td>
                       <td>{item.incoming}</td>
@@ -375,20 +376,20 @@ const Bill = (props) => {
                       <td>
                         <div>
                           <button
-                            className="edit-button"
+                            className="edit-icon"
                             onClick={() => {
                               setEditItem(index);
                             }}
                           >
-                            Edit
+                            <AiOutlineInfoCircle />
                           </button>
                           <button
-                            className="delete-button"
+                            className="delete-icon"
                             onClick={() => {
                               setConfDel(true);
                             }}
                           >
-                            Delete
+                            <HiTrash />
                           </button>
                         </div>
                       </td>
@@ -421,8 +422,8 @@ const Bill = (props) => {
               <tr className="floatingColumn">
                 <td scope="col"></td>
                 <td scope="col"></td>
-                <td scope="col">£{totalPerMonth}</td>
-                <td scope="col">£{totalRemaining}</td>
+                <td scope="col">{totalPerMonth && <>£{totalPerMonth}</>}</td>
+                <td scope="col">{totalRemaining && <>£{totalRemaining}</>}</td>
                 <td scope="col"></td>
                 <td scope="col"></td>
                 <td scope="col"></td>
@@ -473,6 +474,17 @@ const Bill = (props) => {
           handleNew={handleNew}
         />
       )} */}
+
+        <div className="bottom-bracket">
+          <div
+            class="newItem sidenav-add add-button"
+            onClick={() => setNewItem(true)}
+          >
+            <MdAddCircleOutline />
+            Create New Bill
+          </div>
+          <div></div>
+        </div>
       </div>
     </div>
   );

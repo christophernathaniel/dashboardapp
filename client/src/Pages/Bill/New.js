@@ -48,7 +48,7 @@ const New = (props) => {
   useEffect(() => {
     setTimeout(() => {
       setAnimateClass(true);
-    }, 300);
+    }, 1);
   }, []);
 
   return (

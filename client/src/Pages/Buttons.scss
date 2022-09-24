@@ -1,6 +1,8 @@
 .add-button,
 .delete-button,
-.edit-button {
+.edit-button,
+.delete-icon,
+.edit-icon {
   appearance: none;
   background-color: transparent;
   padding-left: 20px;
@@ -22,14 +24,21 @@
   cursor: pointer;
 }
 
-.delete-button {
+.delete-button,
+.delete-icon {
   color: #f73d52;
   cursor: pointer;
 }
 
-.edit-button {
+.edit-button,
+.edit-icon {
   color: #f26522;
   cursor: pointer;
+}
+
+.edit-button,
+.edit-icon {
+  font-size: 18px;
 }
 
 .back {

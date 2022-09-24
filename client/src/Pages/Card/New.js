@@ -18,7 +18,7 @@ const New = (props) => {
   useEffect(() => {
     setTimeout(() => {
       setAnimateClass(true);
-    }, 200);
+    }, 1);
   }, []);
 
   // Create New Card

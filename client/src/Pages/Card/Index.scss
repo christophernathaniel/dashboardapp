@@ -6,6 +6,10 @@
   display: flex;
   flex-wrap: wrap;
   gap: 50px;
+
+  @media (max-width: 500px) {
+    gap: 25px;
+  }
 }
 
 .add-new-card {
@@ -18,7 +22,7 @@
     width: 312px;
     height: 180px;
     display: flex;
-    border-radius: 32px;
+    border-radius: 16px;
 
     @media (max-width: 500px) {
       width: calc(100vw - 3rem);
@@ -32,6 +36,11 @@
     align-items: center;
     justify-content: center;
     color: #a1a1a1;
+
+    @media (max-width: 500px) {
+      height: 100px;
+      margin-bottom: 30px;
+    }
   }
 
   .creditCardInner.blue {
@@ -49,16 +58,20 @@
 
     .right {
       width: 60px;
-      padding: 25px 5px 25px 0px;
+
       background-color: #4150e3;
       height: 100%;
-      border-top-right-radius: 32px;
-      border-bottom-right-radius: 32px;
+      border-top-right-radius: 16px;
+      border-bottom-right-radius: 16px;
 
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       align-items: center;
+
+      > div {
+        padding: 16px 5px 16px 0px;
+      }
     }
 
     .top {

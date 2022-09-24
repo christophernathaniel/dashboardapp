@@ -8,7 +8,7 @@ import "./Index.scss";
 import { ImCog } from "react-icons/im";
 import { HiTrash } from "react-icons/hi";
 
-const Card = () => {
+const Card = (props) => {
   const navigate = useNavigate();
   const [user, setUser] = useState(0);
   const [bill, setBill] = useState(false);
@@ -134,16 +134,19 @@ const Card = () => {
     console.log(total);
 
     setRemainingTotal(Number(pm));
-    // card.data(all).pm;
-    // card.data(all).remaining;
-    // card.data(all).incoming;
-    // card.data(all).active;
-    // card.data(all).paid;
-    // card.totalInAccount;
+  };
+
+  // Scroll Position
+  const controlDirection = (e) => {
+    if (e.target.scrollTop > 20) {
+      props.setScrollAesthetic(true);
+    } else {
+      props.setScrollAesthetic(false);
+    }
   };
 
   return (
-    <div className="creditCardModel scrollModel">
+    <div className="creditCardModel scrollModel" onScroll={controlDirection}>
       <div className="ui-width">
         <h1>Account Cards</h1>
       </div>

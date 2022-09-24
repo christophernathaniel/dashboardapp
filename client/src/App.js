@@ -10,6 +10,10 @@ import Bill from "./Pages/Bill/Index";
 import "./Pages/EditModel.scss";
 import "./Pages/Buttons.scss";
 
+import Logo from "./Pages/Dashboard/Logo.svg";
+
+import { BsFillCreditCard2BackFill, BsBookmarksFill } from "react-icons/bs";
+
 import { MdOutlineSpaceDashboard, MdOutlineMenu } from "react-icons/md";
 
 import AvatarMaleCasual from "./Avatar/Image/avatar-male-casual.png";
@@ -26,6 +30,7 @@ const App = () => {
   const [profileDropdown, setProfileDropdown] = useState(false);
   const [MobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [desktopSidebarOpen, setDesktopSidebarOpen] = useState(false);
+  const [scrollAesthetic, setScrollAesthetic] = useState(false);
 
   useEffect(() => {
     const checkIfClickedOutside = (e) => {
@@ -46,6 +51,10 @@ const App = () => {
       document.removeEventListener("mousedown", checkIfClickedOutside);
     };
   }, [profileDropdown, MobileSidebarOpen]);
+
+  useEffect(() => {
+    setScrollAesthetic(false);
+  }, [NavLink]);
 
   return (
     <div class="wrapper">
@@ -92,27 +101,29 @@ const App = () => {
 
         <nav className="mobile-sidenav">
           <li class="sidenav-item">
-            <NavLink to="/dashboard">
+            <NavLink to="/dashboard" onClick={() => setScrollAesthetic(false)}>
               <MdOutlineSpaceDashboard />
               <span>Dashboard</span>
             </NavLink>
           </li>
-          <li class="sidenav-item">
+          <li class="sidenav-item" onClick={() => setScrollAesthetic(false)}>
             <NavLink to="/card">
-              <MdOutlineSpaceDashboard />
+              <BsFillCreditCard2BackFill />
               <span>Finance</span>
             </NavLink>
           </li>
-          <li class="sidenav-item">
+          <li class="sidenav-item" onClick={() => setScrollAesthetic(false)}>
             <NavLink to="/bookmark">
-              <MdOutlineSpaceDashboard />
+              <BsBookmarksFill />
               <span>Bookmarks</span>
             </NavLink>
           </li>
         </nav>
 
         <div class="main">
-          <nav class="navbar navbar-expand navbar-light navbar-bg">
+          <nav
+            className={`navbar navbar-expand navbar-light navbar-bg scrollAesthetic-${scrollAesthetic}`}
+          >
             <div
               className="navbar-navicon"
               onClick={() => {
@@ -122,6 +133,9 @@ const App = () => {
             >
               <MdOutlineMenu size={24} />
             </div>
+            <li class="nav-item dropdown" ref={ref}>
+              <img className="logo" src={Logo} alt="Creative Nebula Logo" />
+            </li>
             <li class="nav-item dropdown" ref={ref}>
               <div
                 className="dropdown-toggle navbar-profile"
@@ -157,7 +171,15 @@ const App = () => {
             <Route path="/login" exact element={<Login />} />
             <Route path="/register" exact element={<Register />} />
             <Route path="/dashboard" exact element={<Dashboard />} />
-            <Route path="/card" element={<Card />} />
+            <Route
+              path="/card"
+              element={
+                <Card
+                  setScrollAesthetic={setScrollAesthetic}
+                  scrollAesthetic={scrollAesthetic}
+                />
+              }
+            />
             <Route path="/card/*" exact element={<Bill />} />
             <Route path="/bookmark" exact element={<Bookmark />} />
           </Routes>
