@@ -91,6 +91,7 @@ const Bill = (props) => {
     newArr[findindex]["bill"] = billArr; // Set a new Value
     props.handleUpdate(newArr[findindex]);
     setCard(newArr);
+    props.setCardData(newArr);
   }
 
   const updateEdit = (value, i) => {
@@ -99,6 +100,7 @@ const Bill = (props) => {
     newArr[index].data[i] = value; // Set a new Value
     props.handleUpdate(newArr[index]);
     setCard(newArr);
+    props.setCardData(newArr);
   };
 
   const changeTitle = (value) => {
@@ -107,6 +109,7 @@ const Bill = (props) => {
     newArr[index]["name"] = value; // Set a new Value
     props.handleUpdate(newArr[index]);
     setCard(newArr);
+    props.setCardData(newArr);
   };
 
   const changeTotalInAccount = (value) => {
@@ -115,6 +118,7 @@ const Bill = (props) => {
     newArr[index]["totalInAccount"] = value; // Set a new Value
     props.handleUpdate(newArr[index]);
     setCard(newArr);
+    props.setCardData(newArr);
   };
 
   const changeCardHolderName = (value) => {
@@ -123,6 +127,7 @@ const Bill = (props) => {
     newArr[index]["cardHolderName"] = value; // Set a new Value
     props.handleUpdate(newArr[index]);
     setCard(newArr);
+    props.setCardData(newArr);
   };
 
   const changeBank = (value) => {
@@ -131,6 +136,7 @@ const Bill = (props) => {
     newArr[index]["bank"] = value; // Set a new Value
     props.handleUpdate(newArr[index]);
     setCard(newArr);
+    props.setCardData(newArr);
   };
 
   const changeActive = (value) => {
@@ -140,6 +146,7 @@ const Bill = (props) => {
     newArr[index]["active"] = value; // Set a new Value
     props.handleUpdate(newArr[index]);
     setCard(newArr);
+    props.setCardData(newArr);
   };
 
   const setIitemPaid = (value, i) => {
@@ -151,6 +158,7 @@ const Bill = (props) => {
 
     props.handleUpdate(newArr[index]);
     setCard(newArr);
+    props.setCardData(newArr);
   };
 
   const setItemActive = (value, i) => {
@@ -161,6 +169,7 @@ const Bill = (props) => {
     getBill.active = value;
     props.handleUpdate(newArr[index]);
     setCard(newArr);
+    props.setCardData(newArr);
   };
 
   let prevCategory = "";
@@ -195,9 +204,9 @@ const Bill = (props) => {
           <MdArrowBackIos size={20} /> Cards
         </div>
       </div>
-      <div class="scrollModel" onScroll={controlDirection}>
-        <div class="ui-width cardDetails">
-          <div class="editCard editCard-title">
+      <div className="scrollModel" onScroll={controlDirection}>
+        <div className="ui-width cardDetails">
+          <div className="editCard editCard-title">
             <h1>
               {!edit_cardName && <div>{props.bill.name}</div>}
               {edit_cardName && (
@@ -220,7 +229,7 @@ const Bill = (props) => {
             </div>
           </div>
 
-          <div class="editCard editCard-totalinAccount">
+          <div className="editCard editCard-totalinAccount">
             {!edit_cardTotalInAccount && <div>{props.bill.totalInAccount}</div>}
             {edit_cardTotalInAccount && (
               <input
@@ -244,7 +253,7 @@ const Bill = (props) => {
             </div>
           </div>
           <div className="editCard-c">
-            <div class="editCard editCard-cardHolderName">
+            <div className="editCard editCard-cardHolderName">
               {!edit_cardHolderName && <div>{props.bill.cardHolderName}</div>}
               {edit_cardHolderName && (
                 <input
@@ -266,7 +275,7 @@ const Bill = (props) => {
               </div>
             </div>
 
-            <div class="editCard editCard-cardActive">
+            <div className="editCard editCard-cardActive">
               <label className="checkbox">
                 <input
                   type="checkbox"
@@ -281,7 +290,7 @@ const Bill = (props) => {
               )}
             </div>
 
-            <div class="editCard editCard-cardBank">
+            <div className="editCard editCard-cardBank">
               {!edit_cardBank && <div>{props.bill.bank}</div>}
               {edit_cardBank && (
                 <input
@@ -305,7 +314,7 @@ const Bill = (props) => {
           </div>
         </div>
 
-        <div class="ui-width">
+        <div className="ui-width">
           {/* <h1>Dashboard: {dashboard || "No dashboard found"}</h1> */}
 
           <table className="table">
@@ -327,7 +336,7 @@ const Bill = (props) => {
                 bill?.data?.map((item, index) => (
                   <>
                     {item.category !== prevCategory && (
-                      <tr className="titleTr">
+                      <tr className="titleTr" key={"title" + index}>
                         <td>{item.category}</td>
                       </tr>
                     )}
@@ -337,7 +346,7 @@ const Bill = (props) => {
                       className={"list-item is-active-" + item.active}
                     >
                       <td>
-                        <label class="checkbox">
+                        <label className="checkbox">
                           <input
                             type="checkbox"
                             placeholder="Is Paid"
@@ -347,14 +356,44 @@ const Bill = (props) => {
                           />
                         </label>
                       </td>
-                      <td>{item.name}</td>
-                      <td>{item.pm && <>£{item.pm}</>}</td>
-                      <td>{item.remaining && <div>£{item.remaining}</div>}</td>
-                      <td>{item.category}</td>
-                      <td>{item.incoming}</td>
+                      <td
+                        onClick={() => {
+                          setEditItem(index);
+                        }}
+                      >
+                        {item.name}
+                      </td>
+                      <td
+                        onClick={() => {
+                          setEditItem(index);
+                        }}
+                      >
+                        {item.pm && <>£{item.pm}</>}
+                      </td>
+                      <td
+                        onClick={() => {
+                          setEditItem(index);
+                        }}
+                      >
+                        {item.remaining && <div>£{item.remaining}</div>}
+                      </td>
+                      <td
+                        onClick={() => {
+                          setEditItem(index);
+                        }}
+                      >
+                        {item.category}
+                      </td>
+                      <td
+                        onClick={() => {
+                          setEditItem(index);
+                        }}
+                      >
+                        {item.incoming}
+                      </td>
 
                       <td>
-                        <label class="checkbox">
+                        <label className="checkbox">
                           <input
                             type="checkbox"
                             placeholder="Is Active"
@@ -366,7 +405,7 @@ const Bill = (props) => {
                       </td>
                       <td>
                         {item.startDate && (
-                          <div class="date">
+                          <div className="date">
                             {moment(new Date(item.startDate)).format(
                               "Do MMM YYYY"
                             )}
@@ -396,13 +435,13 @@ const Bill = (props) => {
                     </tr>
 
                     {confDel !== false && (
-                      <div class="alertModel-c">
-                        <div class="alertModel">
-                          <div class="alertBody">
-                            <div class="alertTitle">Bill Deletion</div>
+                      <div className="alertModel-c">
+                        <div className="alertModel">
+                          <div className="alertBody">
+                            <div className="alertTitle">Bill Deletion</div>
                             Would you like to delete this bill?
                           </div>
-                          <div class="alertGroup">
+                          <div className="alertGroup">
                             <div onClick={() => setConfDel(false)}>Cancel</div>
                             <div
                               onClick={(index) => {
@@ -477,7 +516,7 @@ const Bill = (props) => {
 
         <div className="bottom-bracket">
           <div
-            class="newItem sidenav-add add-button"
+            className="newItem sidenav-add add-button"
             onClick={() => setNewItem(true)}
           >
             <MdAddCircleOutline />

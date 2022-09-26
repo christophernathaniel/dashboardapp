@@ -12,39 +12,29 @@ const Edit = (props) => {
   const [itemRemaining, setItemRemaining] = useState(
     props.bill.data[props.editItem].remaining
   );
-  const [itemActive, setItemActive] = useState(
-    props.bill.data[props.editItem].active
-  );
-  const [itemPaid, setItemPaid] = useState(
-    props.bill.data[props.editItem].paid
-  );
+  const [itemActive] = useState(props.bill.data[props.editItem].active);
+  const [itemPaid] = useState(props.bill.data[props.editItem].paid);
   const [itemCategory, setItemCategory] = useState(
     props.bill.data[props.editItem].category
   );
-  const [itemOrder, setItemOrder] = useState("");
+  // const [itemOrder, setItemOrder] = useState("");
   const [itemIncoming, setItemIncoming] = useState(
     props.bill.data[props.editItem].incoming
   );
   const [selectedDay, setSelectedDay] = useState(
     props.bill.data[props.editItem].startDate
   );
-  const [billDate, setBillDate] = useState(
-    props.bill.data[props.editItem].billDate
-  );
+  const [billDate] = useState(props.bill.data[props.editItem].billDate);
 
-  const generateKey = (pre) => {
-    return `${pre}_${new Date().getTime()}`;
-  };
+  // const generateKey = (pre) => {
+  //   return `${pre}_${new Date().getTime()}`;
+  // };
 
   useEffect(() => {
     setTimeout(() => {
       setAnimateClass(true);
     }, 1);
   }, []);
-
-  // useEffect(() => {
-  //   props.setBill(props.bill);
-  // }, [setItemName]);
 
   async function newItem(event) {
     event.preventDefault();
@@ -71,12 +61,12 @@ const Edit = (props) => {
   }
 
   return (
-    <div class="editModel-c" className={`editModel-c animate-${animateClass}`}>
-      <div class="editModel">
+    <div className={`editModel-c animate-${animateClass}`}>
+      <div className="editModel">
         <form onSubmit={newItem}>
-          <div class="editModelHeader">
+          <div className="editModelHeader">
             <div
-              class="add-button"
+              className="add-button"
               onClick={(e) => {
                 setAnimateClass(false);
                 setTimeout(() => {
@@ -86,15 +76,15 @@ const Edit = (props) => {
             >
               Cancel
             </div>
-            <div class="editModelTitle">Details</div>
+            <div className="editModelTitle">Details</div>
             <input
               type="submit"
-              class="add-button"
+              className="add-button"
               value="Update"
               onClick={() => newItem}
             />
           </div>
-          <div class="editModelBody">
+          <div className="editModelBody">
             <label>
               <span>Name</span>
               <input
@@ -105,7 +95,7 @@ const Edit = (props) => {
               />
             </label>
 
-            <div class="group">
+            <div className="group">
               <label>
                 <span>Per Month</span>
                 <input
@@ -172,20 +162,23 @@ const Edit = (props) => {
                 <option value="Incoming">Incoming</option>
               </select>
             </label>
-            <div class="group">
-              <div class="label">
+            <div className="group">
+              <div className="label">
                 <span>Start Date</span>
                 <Flatpickr
                   value={selectedDay}
                   onChange={(date) => setSelectedDay(date)}
                 />
                 {selectedDay && (
-                  <div class="add-button" onClick={() => setSelectedDay(null)}>
+                  <div
+                    className="add-button"
+                    onClick={() => setSelectedDay(null)}
+                  >
                     Clear
                   </div>
                 )}
               </div>
-              <div class="label">
+              <div className="label">
                 <span>Bill Date</span>
                 <Flatpickr
                   year
@@ -193,7 +186,10 @@ const Edit = (props) => {
                   onChange={(date) => setSelectedDay(date)}
                 />
                 {selectedDay && (
-                  <div class="add-button" onClick={() => setSelectedDay(null)}>
+                  <div
+                    className="add-button"
+                    onClick={() => setSelectedDay(null)}
+                  >
                     Clear
                   </div>
                 )}

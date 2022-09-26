@@ -7,13 +7,13 @@ const New = (props) => {
   const [itemName, setItemName] = useState("");
   const [itemPm, setItemPm] = useState("");
   const [itemRemaining, setItemRemaining] = useState("");
-  const [itemActive, setItemActive] = useState(true);
-  const [itemPaid, setItemPaid] = useState(false);
+  // const [itemActive, setItemActive] = useState(true);
+  // const [itemPaid, setItemPaid] = useState(false);
   const [itemCategory, setItemCategory] = useState("");
-  const [itemOrder, setItemOrder] = useState("");
+  // const [itemOrder, setItemOrder] = useState("");
   const [itemIncoming, setItemIncoming] = useState("Outgoing");
   const [selectedDay, setSelectedDay] = useState("");
-  const [card, setCard] = useState();
+  // const [card, setCard] = useState();
   const [animateClass, setAnimateClass] = useState(false);
 
   const generateKey = (pre) => {
@@ -52,12 +52,12 @@ const New = (props) => {
   }, []);
 
   return (
-    <div class="editModel-c" className={`editModel-c animate-${animateClass}`}>
-      <div class="editModel">
+    <div className={`editModel-c animate-${animateClass}`}>
+      <div className="editModel">
         <form onSubmit={newItem}>
-          <div class="editModelHeader">
+          <div className="editModelHeader">
             <div
-              class="add-button"
+              className="add-button"
               onClick={() => {
                 setTimeout(() => {
                   props.setNewItem(false);
@@ -67,11 +67,11 @@ const New = (props) => {
             >
               Cancel
             </div>
-            <div class="editModelTitle">Add Bill</div>
-            <input type="submit" class="add-button" value="Create" />
+            <div className="editModelTitle">Add Bill</div>
+            <input type="submit" className="add-button" value="Create" />
           </div>
 
-          <div class="editModelBody">
+          <div className="editModelBody">
             <label>
               <span>Bill Name</span>
               <input
@@ -81,7 +81,7 @@ const New = (props) => {
                 onChange={(e) => setItemName(e.target.value)}
               />
             </label>
-            <div class="group">
+            <div className="group">
               <label>
                 <span>Monthly Amount</span>
                 <input

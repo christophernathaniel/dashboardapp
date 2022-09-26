@@ -49,10 +49,10 @@ const New = (props) => {
   }
 
   return (
-    <div class="editModel-c ">
-      <div class="editModel">
+    <div className="editModel-c ">
+      <div className="editModel">
         <form onSubmit={newItem}>
-          <div class="editModelHeader">
+          <div className="editModelHeader">
             <div
               onClick={() => {
                 setTimeout(() => {
@@ -62,8 +62,8 @@ const New = (props) => {
             >
               Cancel
             </div>
-            <div class="editModelTitle">New Bookmark</div>
-            <input type="submit" class="add-button" value="Add Bookmark" />
+            <div className="editModelTitle">New Bookmark</div>
+            <input type="submit" className="add-button" value="Add Bookmark" />
           </div>
           <div className="editModelBody">
             <label>

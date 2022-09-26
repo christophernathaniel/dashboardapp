@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import "./Login.scss";
+
 function Register() {
   const navigate = useNavigate();
 
@@ -27,27 +29,40 @@ function Register() {
   }
 
   return (
-    <div className="App">
+    <div className="model--Login">
       <h1>Register</h1>
       <form onSubmit={registerUser}>
-        <input
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          type="text"
-          placeholder="Name"
-        />
-        <input
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          type="text"
-          placeholder="Email"
-        />
-        <input
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          type="password"
-          placeholder="Password"
-        />
+        <label>
+          <span>Name</span>
+
+          <input
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            type="text"
+            placeholder="Name"
+          />
+        </label>
+        <label>
+          <span>Email</span>
+
+          <input
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            type="text"
+            placeholder="Email"
+          />
+        </label>
+        <label>
+          <span>Password</span>
+
+          <input
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            type="password"
+            placeholder="Password"
+          />
+        </label>
+
         <input type="submit" value="Register" />
       </form>
     </div>

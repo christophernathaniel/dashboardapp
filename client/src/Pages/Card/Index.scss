@@ -132,3 +132,31 @@
     }
   }
 }
+
+.title-layout {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.syncState-false {
+  background-color: #c1c1c1 !important;
+}
+
+.syncState-true {
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+
+  svg {
+    animation: syncAnimation 1s 0s infinite linear;
+  }
+}
+
+@keyframes syncAnimation {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}

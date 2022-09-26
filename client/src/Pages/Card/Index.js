@@ -1,33 +1,22 @@
 import React, { useEffect, useState } from "react";
-import jwt from "jsonwebtoken";
-import { useNavigate } from "react-router-dom";
+
 import New from "./New";
 import Bill from "../Bill/Index";
 
 import "./Index.scss";
 import { ImCog } from "react-icons/im";
 import { HiTrash } from "react-icons/hi";
+import { AiOutlineSync } from "react-icons/ai";
 
 const Card = (props) => {
-  const navigate = useNavigate();
-  const [user, setUser] = useState(0);
   const [bill, setBill] = useState(false);
   const [showNew, setShowNew] = useState(false);
   const [remainingTotal, setRemainingTotal] = useState(0);
   const [confDel, setConfDel] = useState(false);
+  const [syncState, setSyncState] = useState(false);
+  const [user, setUser] = useState(props.user);
 
-  const [card, setCard] = useState([
-    {
-      id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
-      name: "Macbook Pro M1 Pro",
-      active: true,
-    },
-    {
-      id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28bb",
-      name: "Apple Watch Ultra",
-      active: true,
-    },
-  ]);
+  const [card, setCard] = useState(props?.cardData);
 
   async function populateCard() {
     const req = await fetch(window.getfetch + "api/card", {
@@ -42,6 +31,9 @@ const Card = (props) => {
 
     if (data.status === "ok") {
       setCard(data.data);
+      props.setCardData(data.data);
+      setSyncState(false);
+
       updateMath(data.data);
     } else {
       alert(data.error);
@@ -49,31 +41,24 @@ const Card = (props) => {
   }
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      const user = jwt.decode(token);
-      setUser(user.uuid);
-
-      if (!user) {
-        localStorage.removeItem("token");
-        navigate("/login");
-      } else {
-        populateCard();
-      }
+    if (card === false) {
+      populateCard();
     } else {
-      navigate("/login");
+      updateMath(card);
     }
   }, []);
 
   const handleNew = (data) => {
     console.log("----- card new");
     setCard([...card, data]);
+    props.setCardData([...card, data]);
   };
 
   async function removeItem(uuid, index) {
     let newArr = [...card];
     newArr.splice(index, 1);
     setCard(newArr);
+    props.setCardData(newArr);
 
     const req = await fetch(window.getfetch + "api/card/delete", {
       method: "POST",
@@ -115,6 +100,12 @@ const Card = (props) => {
     updateMath(card);
   };
 
+  const doSync = () => {
+    setSyncState(true);
+    props.setCardData(false);
+    populateCard();
+  };
+
   const updateMath = (card) => {
     // Function to calculate the total of ALL cards
     const pm = card?.reduce((allTotal, items) => {
@@ -147,8 +138,14 @@ const Card = (props) => {
 
   return (
     <div className="creditCardModel scrollModel" onScroll={controlDirection}>
-      <div className="ui-width">
+      <div className="ui-width title-layout">
         <h1>Account Cards</h1>
+        <div
+          className={`sync tag-large syncState-` + syncState}
+          onClick={() => doSync()}
+        >
+          Sync <AiOutlineSync />
+        </div>
       </div>
 
       <div className="ui-width creditCardList">
@@ -161,69 +158,72 @@ const Card = (props) => {
           <div className="creditCardInner addNew">Add New Card</div>
         </div>
 
-        {card?.map((item, index) => (
-          <>
-            <div
-              key={index}
-              className={
-                "creditCard color-" + item.color + " active-" + item.active
-              }
-            >
-              <div className="creditCardInner blue">
-                <div className="left">
-                  <div className="top">
-                    <div className="bank">{item.bank}</div>
-                  </div>
-
-                  <div className="middle">
-                    <div className="totalinaccount">
-                      <span>Total:</span>£{item.totalInAccount}
+        {card &&
+          card?.map((item, index) => (
+            <div key={index}>
+              <div
+                className={
+                  "creditCard color-" + item.color + " active-" + item.active
+                }
+              >
+                <div className="creditCardInner blue">
+                  <div className="left" onClick={() => setBill(item)}>
+                    <div className="top">
+                      <div className="bank">{item.bank}</div>
                     </div>
-                    <div className="totalRemaining">
-                      <span>Spare:</span> £{item.totalInAccount - item.totalPm}
+
+                    <div className="middle">
+                      <div className="totalinaccount">
+                        <span>Total:</span>£{item.totalInAccount}
+                      </div>
+                      <div className="totalRemaining">
+                        <span>Spare:</span> £
+                        {item.totalInAccount - item.totalPm}
+                      </div>
+                    </div>
+
+                    <div className="bottom">
+                      <div className="cardNumber">**** **** **** ****</div>
+                      <div className="cardholdername">
+                        {item.cardHolderName}
+                      </div>
                     </div>
                   </div>
-
-                  <div className="bottom">
-                    <div className="cardNumber">**** **** **** ****</div>
-                    <div className="cardholdername">{item.cardHolderName}</div>
+                  <div className="right">
+                    <div onClick={() => setBill(item)}>
+                      <ImCog size={18} />
+                    </div>
+                    <div onClick={() => setConfDel(true)}>
+                      <HiTrash size={24} />
+                    </div>
                   </div>
                 </div>
-                <div class="right">
-                  <div onClick={() => setBill(item)}>
-                    <ImCog size={18} />
-                  </div>
-                  <div onClick={() => setConfDel(true)}>
-                    <HiTrash size={24} />
-                  </div>
-                </div>
+                <div className="name">{item.name}</div>
               </div>
-              <div className="name">{item.name}</div>
+
+              {confDel !== false && (
+                <div className="alertModel-c">
+                  <div className="alertModel">
+                    <div className="alertBody">
+                      <div className="alertTitle">Card Deletion</div>
+                      Would you like to delete this card?
+                    </div>
+                    <div className="alertGroup">
+                      <div onClick={() => setConfDel(false)}>Cancel</div>
+                      <div
+                        onClick={() => {
+                          removeItem(item.uuid, index);
+                          setConfDel(false);
+                        }}
+                      >
+                        Delete
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
-
-            {confDel !== false && (
-              <div class="alertModel-c">
-                <div class="alertModel">
-                  <div class="alertBody">
-                    <div class="alertTitle">Card Deletion</div>
-                    Would you like to delete this card?
-                  </div>
-                  <div class="alertGroup">
-                    <div onClick={() => setConfDel(false)}>Cancel</div>
-                    <div
-                      onClick={() => {
-                        removeItem(item.uuid, index);
-                        setConfDel(false);
-                      }}
-                    >
-                      Delete
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-          </>
-        ))}
+          ))}
       </div>
 
       {showNew && (
@@ -232,19 +232,21 @@ const Card = (props) => {
           setShowNew={setShowNew}
           handleNew={handleNew}
           user={user}
+          setCardData={props.setCardData}
+          cardData={props.cardData}
         />
       )}
 
-      {bill ? (
+      {bill && (
         <Bill
           bill={bill}
           setBill={setBill}
           card={card}
           setCard={setCard}
           handleUpdate={handleUpdate}
+          setCardData={props.setCardData}
+          cardData={props.cardData}
         />
-      ) : (
-        ""
       )}
     </div>
   );

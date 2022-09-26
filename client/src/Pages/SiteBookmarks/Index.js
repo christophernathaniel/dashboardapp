@@ -7,15 +7,15 @@ import "./Index.scss";
 import { ImCog } from "react-icons/im";
 import { HiTrash } from "react-icons/hi";
 
-const Bookmark = () => {
+const Bookmark = (props) => {
   const navigate = useNavigate();
   const [user, setUser] = useState(0);
   const [bill, setBill] = useState(false);
   const [showNew, setShowNew] = useState(false);
-  const [remainingTotal, setRemainingTotal] = useState(0);
+
   const [confDel, setConfDel] = useState(false);
 
-  const [bookmark, setBookmark] = useState([]);
+  const [bookmark, setBookmark] = useState(props.bookmarkData);
 
   async function populateBookmark() {
     const req = await fetch(window.getfetch + "api/bookmark", {
@@ -30,6 +30,7 @@ const Bookmark = () => {
 
     if (data.status === "ok") {
       setBookmark(data.data);
+      props.setBookmarkData(data.data);
     } else {
       alert(data.error);
     }
@@ -45,7 +46,9 @@ const Bookmark = () => {
         localStorage.removeItem("token");
         navigate("/login");
       } else {
-        populateBookmark();
+        if (bookmark === false) {
+          populateBookmark();
+        }
       }
     } else {
       navigate("/login");
@@ -55,12 +58,14 @@ const Bookmark = () => {
   const handleNew = (data) => {
     console.log("----- card new");
     setBookmark([...bookmark, data]);
+    props.setBookmarkData([...bookmark, data]);
   };
 
   async function removeItem(uuid, index) {
     let newArr = [...bookmark];
     newArr.splice(index, 1);
     setBookmark(newArr);
+    props.setBookmarkData(newArr);
 
     const req = await fetch(window.getfetch + "api/bookmark/delete", {
       method: "POST",
@@ -118,62 +123,63 @@ const Bookmark = () => {
           <div className="bookmarkCardinner addNew">Add New Bookmark</div>
         </div>
 
-        {bookmark?.map((item, index) => (
-          <>
-            <div
-              key={index}
-              className={
-                "bookmarkCard color-" + item.color + " active-" + item.active
-              }
-            >
-              <div className="bookmarkCardInner blue">
-                <a
-                  href={`//` + item.url}
-                  rel="noreferrer"
-                  target="_blank"
-                  className="name left"
-                >
-                  <div className="top">
-                    <div>{item.name}</div>
-                    {item.category && <div>{item.category}</div>}
-                  </div>
+        {bookmark &&
+          bookmark?.map((item, index) => (
+            <>
+              <div
+                key={index}
+                className={
+                  "bookmarkCard color-" + item.color + " active-" + item.active
+                }
+              >
+                <div className="bookmarkCardInner blue">
+                  <a
+                    href={`//` + item.url}
+                    rel="noreferrer"
+                    target="_blank"
+                    className="name left"
+                  >
+                    <div className="top">
+                      <div>{item.name}</div>
+                      {item.category && <div>{item.category}</div>}
+                    </div>
 
-                  <div className="bottom"></div>
-                </a>
-                <div class="right">
-                  <div onClick={() => setBill(item)}>
-                    <ImCog size={18} />
-                  </div>
-                  <div onClick={() => setConfDel(true)}>
-                    <HiTrash size={24} />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {confDel !== false && (
-              <div class="alertModel-c">
-                <div class="alertModel">
-                  <div class="alertBody">
-                    <div class="alertTitle">Card Deletion</div>
-                    Would you like to delete this card?
-                  </div>
-                  <div class="alertGroup">
-                    <div onClick={() => setConfDel(false)}>Cancel</div>
-                    <div
-                      onClick={() => {
-                        removeItem(item.uuid, index);
-                        setConfDel(false);
-                      }}
-                    >
-                      Delete
+                    <div className="bottom"></div>
+                  </a>
+                  <div className="right">
+                    <div onClick={() => setBill(item)}>
+                      <ImCog size={18} />
+                    </div>
+                    <div onClick={() => setConfDel(true)}>
+                      <HiTrash size={24} />
                     </div>
                   </div>
                 </div>
               </div>
-            )}
-          </>
-        ))}
+
+              {confDel !== false && (
+                <div className="alertModel-c">
+                  <div className="alertModel">
+                    <div className="alertBody">
+                      <div className="alertTitle">Card Deletion</div>
+                      Would you like to delete this card?
+                    </div>
+                    <div className="alertGroup">
+                      <div onClick={() => setConfDel(false)}>Cancel</div>
+                      <div
+                        onClick={() => {
+                          removeItem(item.uuid, index);
+                          setConfDel(false);
+                        }}
+                      >
+                        Delete
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </>
+          ))}
       </div>
 
       {showNew && (

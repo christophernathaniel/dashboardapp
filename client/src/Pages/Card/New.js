@@ -62,9 +62,9 @@ const New = (props) => {
 
   return (
     <div className={`editModel-c animate-${animateClass}`}>
-      <div class="editModel">
+      <div className="editModel">
         <form onSubmit={newItem}>
-          <div class="editModelHeader">
+          <div className="editModelHeader">
             <div
               onClick={() => {
                 setTimeout(() => {
@@ -76,8 +76,8 @@ const New = (props) => {
             >
               Cancel
             </div>
-            <div class="editModelTitle">New Card</div>
-            <input type="submit" class="add-button" value="Add Card" />
+            <div className="editModelTitle">New Card</div>
+            <input type="submit" className="add-button" value="Add Card" />
           </div>
           <div className="editModelBody">
             <label>

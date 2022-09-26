@@ -52,3 +52,29 @@
 
 .add-large-button {
 }
+
+.tag {
+  font-size: 10px;
+  padding: 2px 5px;
+  background-color: #3f80ea;
+  border-radius: 10px;
+  color: white;
+  display: flex;
+  justify-content: center;
+}
+
+.tag-large {
+  font-size: 12px;
+  padding: 10px 14px;
+  background-color: #3f80ea;
+  border-radius: 10px;
+  color: white;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+
+  svg {
+    margin-left: 5px;
+  }
+}
