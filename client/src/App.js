@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, NavLink } from "react-router-dom";
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";
 import Dashboard from "./Pages/Dashboard/Index";
 import Bookmark from "./Pages/SiteBookmarks/Index";
 import Card from "./Pages/Card/Index";
 import { useLocalStorage } from "./Hooks/useLocalStorage";
+import Site from "./Pages/Site.js";
 
 import "./Pages/EditModel.scss";
 import "./Pages/Buttons.scss";
@@ -28,6 +29,7 @@ const App = () => {
         <Routes>
           <Route path="/login" exact element={<Login />} />
           <Route path="/register" exact element={<Register />} />
+          <Route path="/" exact element={<Site />} />
           <Route
             path="/dashboard"
             exact
