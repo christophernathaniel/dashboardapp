@@ -22,8 +22,8 @@ const App = () => {
     false
   );
 
-  //window.getfetch = "https://nebula-finance-app.herokuapp.com/";
-  window.getfetch = "http://localhost:8081/";
+  window.getfetch = "https://nebula-finance-app.herokuapp.com/";
+  //window.getfetch = "http://localhost:8081/";
 
   return (
     <div>
