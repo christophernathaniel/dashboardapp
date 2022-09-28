@@ -9,7 +9,7 @@ import { ImCog } from "react-icons/im";
 import { HiTrash } from "react-icons/hi";
 import { AiOutlineSync } from "react-icons/ai";
 
-const Card = (props) => {
+const Code = (props) => {
   const [bill, setBill] = useState(false);
   const [showNew, setShowNew] = useState(false);
   const [remainingTotal, setRemainingTotal] = useState(0);
@@ -17,10 +17,10 @@ const Card = (props) => {
   const [syncState, setSyncState] = useState(false);
   const [user, setUser] = useState(props.user);
 
-  const [card, setCard] = useState(props?.cardData);
+  const [card, setCard] = useState(props?.codeData);
 
   async function populateCard() {
-    const req = await fetch(window.getfetch + "api/card", {
+    const req = await fetch(window.getfetch + "api/code", {
       headers: {
         "x-access-token": localStorage.getItem("token"),
       },
@@ -32,7 +32,7 @@ const Card = (props) => {
 
     if (data.status === "ok") {
       setCard(data.data);
-      props.setCardData(data.data);
+      props.setCodeData(data.data);
       setSyncState(false);
 
       updateMath(data.data);
@@ -52,14 +52,14 @@ const Card = (props) => {
   const handleNew = (data) => {
     console.log("----- card new");
     setCard([...card, data]);
-    props.setCardData([...card, data]);
+    props.setCodeData([...card, data]);
   };
 
   async function removeItem(uuid, index) {
     let newArr = [...card];
     newArr.splice(index, 1);
     setCard(newArr);
-    props.setCardData(newArr);
+    props.setCodeData(newArr);
 
     const req = await fetch(window.getfetch + "api/card/delete", {
       method: "POST",
@@ -88,7 +88,7 @@ const Card = (props) => {
       active: data.active,
     }; // For Submit
 
-    const req = await fetch(window.getfetch + "api/card/update", {
+    const req = await fetch(window.getfetch + "api/code/update", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -103,7 +103,7 @@ const Card = (props) => {
 
   const doSync = () => {
     setSyncState(true);
-    props.setCardData(false);
+    props.setCodeData(false);
     populateCard();
   };
 
@@ -233,8 +233,8 @@ const Card = (props) => {
           setShowNew={setShowNew}
           handleNew={handleNew}
           user={user}
-          setCardData={props.setCardData}
-          cardData={props.cardData}
+          setCardData={props.setCodeData}
+          cardData={props.codeData}
         />
       )}
 
@@ -245,12 +245,12 @@ const Card = (props) => {
           card={card}
           setCard={setCard}
           handleUpdate={handleUpdate}
-          setCardData={props.setCardData}
-          cardData={props.cardData}
+          setCardData={props.setCodeData}
+          cardData={props.codeData}
         />
       )}
     </div>
   );
 };
 
-export default Card;
+export default Code;

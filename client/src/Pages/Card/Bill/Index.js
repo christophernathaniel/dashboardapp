@@ -91,7 +91,7 @@ const Bill = (props) => {
     newArr[findindex]["bill"] = billArr; // Set a new Value
     props.handleUpdate(newArr[findindex]);
     setCard(newArr);
-    props.setCardData(newArr);
+    // props.setCardData(newArr);
   }
 
   const updateEdit = (value, i) => {

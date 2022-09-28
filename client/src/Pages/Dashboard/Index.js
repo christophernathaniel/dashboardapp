@@ -93,6 +93,9 @@ const Dashboard = (props) => {
                 <li className="sidebar-item">
                   <NavLink to="/dashboard/card">Card</NavLink>
                 </li>
+                <li className="sidebar-item">
+                  <NavLink to="/dashboard/code">Code</NavLink>
+                </li>
               </div>
               <li className="sidebar-header">Events</li>
               <li className="sidebar-header">Account</li>

@@ -5,6 +5,7 @@ import Register from "./Pages/Register";
 import Dashboard from "./Pages/Dashboard/Index";
 import Bookmark from "./Pages/SiteBookmarks/Index";
 import Card from "./Pages/Card/Index";
+import Code from "./Pages/Code/Index";
 import { useLocalStorage } from "./Hooks/useLocalStorage";
 import Site from "./Pages/Site.js";
 
@@ -15,13 +16,14 @@ import "./App.scss";
 const App = () => {
   const [scrollAesthetic, setScrollAesthetic] = useState(false);
   const [cardData, setCardData] = useLocalStorage("cardData", false);
+  const [codeData, setCodeData] = useLocalStorage("codeData", false);
   const [bookmarkData, setBookmarkData] = useLocalStorage(
     "bookmarkData",
     false
   );
 
-  window.getfetch = "https://nebula-finance-app.herokuapp.com/";
-  //window.getfetch = "http://localhost:8081/";
+  //window.getfetch = "https://nebula-finance-app.herokuapp.com/";
+  window.getfetch = "http://localhost:8081/";
 
   return (
     <div>
@@ -51,6 +53,19 @@ const App = () => {
                 />
               }
             />
+
+            <Route
+              path="code"
+              element={
+                <Code
+                  setScrollAesthetic={setScrollAesthetic}
+                  scrollAesthetic={scrollAesthetic}
+                  codeData={codeData}
+                  setCodeData={setCodeData}
+                />
+              }
+            />
+
             <Route
               path="bookmark"
               exact
