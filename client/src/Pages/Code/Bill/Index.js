@@ -79,19 +79,22 @@ const Bill = (props) => {
 
     setCard(newArr);
     props.handleUpdate(newArr[index]);
+    props.setCardData(newArr);
   };
 
   async function removeItem(index) {
     let billArr = bill;
     billArr.data.splice(index, 1);
-    // setBill(newArr);
 
     let newArr = [...card]; // Create a new array from Card
     let findindex = newArr.findIndex((x) => x.uuid === props.bill.uuid); // Find Correct Card
-    newArr[findindex]["bill"] = billArr; // Set a new Value
+    //newArr[findindex]["bill"] = billArr; // Set a new Value
+
     props.handleUpdate(newArr[findindex]);
     setCard(newArr);
     props.setCardData(newArr);
+
+    setConfDel(false);
   }
 
   const updateEdit = (value, i) => {
@@ -275,7 +278,7 @@ const Bill = (props) => {
                           <button
                             className="delete-icon"
                             onClick={() => {
-                              setConfDel(true);
+                              setConfDel(index);
                             }}
                           >
                             <HiTrash />
@@ -294,9 +297,8 @@ const Bill = (props) => {
                           <div className="alertGroup">
                             <div onClick={() => setConfDel(false)}>Cancel</div>
                             <div
-                              onClick={(index) => {
-                                removeItem(index);
-                                setConfDel(false);
+                              onClick={() => {
+                                removeItem(setConfDel);
                               }}
                             >
                               Delete

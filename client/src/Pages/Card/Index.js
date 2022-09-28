@@ -175,11 +175,14 @@ const Card = (props) => {
 
                     <div className="middle">
                       <div className="totalinaccount">
-                        <span>Total:</span>£{item.totalInAccount}
+                        <span>Total:</span>£
+                        {parseFloat(item.totalInAccount).toFixed(2)}
                       </div>
                       <div className="totalRemaining">
                         <span>Spare:</span> £
-                        {item.totalInAccount - item.totalPm}
+                        {parseFloat(item.totalInAccount - item.totalPm).toFixed(
+                          2
+                        )}
                       </div>
                     </div>
 

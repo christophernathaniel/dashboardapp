@@ -12,7 +12,9 @@ const Edit = (props) => {
   const [itemRemaining, setItemRemaining] = useState(
     props.bill.data[props.editItem].remaining
   );
-  const [itemActive] = useState(props.bill.data[props.editItem].active);
+  const [itemActive, setItemActive] = useState(
+    props.bill.data[props.editItem].active
+  );
   const [itemPaid] = useState(props.bill.data[props.editItem].paid);
   const [itemCategory, setItemCategory] = useState(
     props.bill.data[props.editItem].category
@@ -116,6 +118,16 @@ const Edit = (props) => {
                 />
               </label>
             </div>
+
+            <label className="checkbox">
+              <input
+                type="checkbox"
+                placeholder="Is Active"
+                checked={itemActive}
+                value={itemActive}
+                onChange={(e) => setItemActive(!itemActive)}
+              />
+            </label>
 
             {/* <input
           type="text"

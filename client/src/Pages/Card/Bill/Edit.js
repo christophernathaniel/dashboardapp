@@ -12,8 +12,12 @@ const Edit = (props) => {
   const [itemRemaining, setItemRemaining] = useState(
     props.bill.data[props.editItem].remaining
   );
-  const [itemActive] = useState(props.bill.data[props.editItem].active);
-  const [itemPaid] = useState(props.bill.data[props.editItem].paid);
+  const [itemActive, setItemActive] = useState(
+    props.bill.data[props.editItem].active
+  );
+  const [itemPaid, setItemPaid] = useState(
+    props.bill.data[props.editItem].paid
+  );
   const [itemCategory, setItemCategory] = useState(
     props.bill.data[props.editItem].category
   );
@@ -24,7 +28,9 @@ const Edit = (props) => {
   const [selectedDay, setSelectedDay] = useState(
     props.bill.data[props.editItem].startDate
   );
-  const [billDate] = useState(props.bill.data[props.editItem].billDate);
+  const [billDate, setBillDate] = useState(
+    props.bill.data[props.editItem].billDate
+  );
 
   // const generateKey = (pre) => {
   //   return `${pre}_${new Date().getTime()}`;
@@ -117,18 +123,37 @@ const Edit = (props) => {
               </label>
             </div>
 
-            {/* <input
-          type="text"
-          placeholder="Is Active"
-          value={itemActive}
-          onChange={(e) => setItemActive(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Is Paid"
-          value={itemPaid}
-          onChange={(e) => setItemPaid(e.target.value)}
-        /> */}
+            <div className="group">
+              <label>
+                <span>Active Item</span>
+                <div className="checkbox">
+                  <input
+                    type="checkbox"
+                    placeholder="Is Active"
+                    checked={itemActive}
+                    value={itemActive}
+                    onChange={(e) => setItemActive(!itemActive)}
+                  />
+                </div>
+                <div class="check-label">
+                  {itemActive ? "Active" : "Inactive"}
+                </div>
+              </label>
+
+              <label>
+                <span>Paid</span>
+                <div className="checkbox">
+                  <input
+                    type="checkbox"
+                    placeholder="Is Active"
+                    checked={itemPaid}
+                    value={itemPaid}
+                    onChange={(e) => setItemPaid(!itemPaid)}
+                  />
+                </div>
+                <div class="check-label">{itemPaid ? "Paid" : "Not Paid"}</div>
+              </label>
+            </div>
 
             <label>
               <span>Category</span>
@@ -182,14 +207,11 @@ const Edit = (props) => {
                 <span>Bill Date</span>
                 <Flatpickr
                   year
-                  value={selectedDay}
-                  onChange={(date) => setSelectedDay(date)}
+                  value={billDate}
+                  onChange={(date) => setBillDate(date)}
                 />
-                {selectedDay && (
-                  <div
-                    className="add-button"
-                    onClick={() => setSelectedDay(null)}
-                  >
+                {billDate && (
+                  <div className="add-button" onClick={() => setBillDate(null)}>
                     Clear
                   </div>
                 )}
