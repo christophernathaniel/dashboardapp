@@ -34,7 +34,16 @@ app.use(express.static(path.resolve(__dirname, "../client/build")));
 
 app.use(express.static(path.resolve(__dirname, "./client/build")));
 app.get(
-  ["/", "/login", "/register", "/dashboard", "/card", "/bill", "/code"],
+  [
+    "/",
+    "/login",
+    "/register",
+    "/dashboard",
+    "/card",
+    "/bill",
+    "/code",
+    "/subtask",
+  ],
   (request, response) => {
     response.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
   }

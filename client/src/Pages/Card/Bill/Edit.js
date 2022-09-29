@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
 import "flatpickr/dist/themes/material_blue.css";
 import Flatpickr from "react-flatpickr";
+import Subtask from "../Subtask/Index";
 
 const Edit = (props) => {
   const [animateClass, setAnimateClass] = useState(false);
+
+  const [itemId] = useState(props.bill.data[props.editItem].id);
 
   const [itemName, setItemName] = useState(
     props.bill.data[props.editItem].name
@@ -90,6 +93,7 @@ const Edit = (props) => {
               onClick={() => newItem}
             />
           </div>
+
           <div className="editModelBody">
             <label>
               <span>Name</span>
@@ -219,6 +223,8 @@ const Edit = (props) => {
             </div>
           </div>
         </form>
+
+        <Subtask itemId={itemId} />
       </div>
     </div>
   );

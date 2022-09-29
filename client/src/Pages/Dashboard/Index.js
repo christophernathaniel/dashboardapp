@@ -33,10 +33,12 @@ const Dashboard = (props) => {
       setUser(user.uuid);
 
       if (!user) {
+        // Ensure all User Data is Removed
         localStorage.removeItem("token");
         localStorage.removeItem("cardData");
         localStorage.removeItem("bookmarkData");
-
+        localStorage.removeItem("codeData");
+        localStorage.removeItem("token");
         navigate("/login");
       } else {
       }

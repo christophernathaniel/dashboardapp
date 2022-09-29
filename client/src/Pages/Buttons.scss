@@ -78,3 +78,18 @@
     margin-left: 5px;
   }
 }
+
+.sub-task-add-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background-color: #3f80ea;
+  height: 40px;
+  color: white;
+  margin-bottom: 20px;
+  svg {
+    font-size: 18px;
+    margin-right: 10px;
+  }
+}

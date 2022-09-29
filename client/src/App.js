@@ -29,7 +29,13 @@ const App = () => {
     <div>
       <BrowserRouter>
         <Routes>
-          <Route path="/login" exact element={<Login />} />
+          <Route
+            path="/login"
+            exact
+            element={
+              <Login setCardData={setCardData} setCodeData={setCodeData} />
+            }
+          />
           <Route path="/register" exact element={<Register />} />
           <Route path="/" exact element={<Site />} />
           <Route

@@ -1,11 +1,26 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import "./Login.scss";
 import Logo from "./Dashboard/Logo.svg";
 
-function Login() {
+function Login(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  useEffect(() => {
+    // Data Cleanup
+
+    props.setCardData(false);
+    props.setCodeData(false);
+
+    localStorage.removeItem("token");
+    localStorage.removeItem("cardData");
+    localStorage.removeItem("bookmarkData");
+    localStorage.removeItem("codeData");
+    localStorage.removeItem("token");
+
+    console.log("removed");
+  }, []);
 
   async function loginUser(event) {
     event.preventDefault();
@@ -21,6 +36,10 @@ function Login() {
     const data = await response.json();
 
     if (data.user) {
+      // Ensure old token is removed
+      localStorage.removeItem("token");
+
+      // Issue new token
       localStorage.setItem("token", data.user);
 
       alert("Login successful");

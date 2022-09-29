@@ -4,6 +4,7 @@ const User = require("../models/user.model");
 const Card = require("../models/card.model");
 const Code = require("../models/code.model");
 const Bookmark = require("../models/bookmark.model");
+const Subtask = require("../models/subtask.model");
 const Bill = require("../models/bill.model");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
@@ -423,6 +424,90 @@ router.post("/code/delete", async (req, res) => {
     const user_uuid = decoded.uuid;
 
     const card = await Code.deleteOne({
+      uuid: req.body.uuid,
+      user_uuid: user_uuid,
+    });
+
+    console.log("deleted");
+
+    res.json({ status: "ok" });
+  } catch (err) {
+    res.json({ status: "error" });
+  }
+});
+
+//**** Subtask ------------------------------------------ */
+
+// Retrieve
+router.get("/subtask", async (req, res) => {
+  const token = req.headers["x-access-token"];
+  const taskid = req.headers["x-task-id"];
+
+  try {
+    const decoded = jwt.verify(token, secret);
+    const uuid = decoded.uuid;
+    const subtask = await Subtask.find({ user_uuid: uuid, task_id: taskid });
+
+    console.log(subtask);
+
+    console.log("retrieve subtask:" + uuid + " taskid:" + taskid);
+
+    return res.json({ status: "ok", hello: "world", data: subtask });
+  } catch (error) {
+    console.log(error);
+    return res.json({ status: "error", error: "invalid token" });
+  }
+});
+
+// Create;
+router.post("/subtask/create", async (req, res) => {
+  const token = req.headers["x-access-token"];
+  const taskid = req.headers["x-task-id"];
+
+  console.log("request-made");
+  console.log(req.body);
+
+  try {
+    const decoded = jwt.verify(token, secret);
+    const user_uuid = decoded.uuid;
+
+    const subtask = await Subtask.create({
+      uuid: req.body.uuid,
+      user_uuid: user_uuid,
+      task_id: req.body.task_id,
+      title: req.body.title,
+      content: req.body.content,
+      data: [],
+    });
+
+    console.log("request try complete");
+
+    console.log(
+      "tried to create new subtask:" +
+        user_uuid +
+        ":" +
+        taskid +
+        ":" +
+        req.body.title
+    );
+
+    res.json({ status: "ok" });
+  } catch (err) {
+    res.json({ status: "error" });
+  }
+});
+
+// DELETE
+router.post("/subtask/delete", async (req, res) => {
+  const token = req.headers["x-access-token"];
+
+  console.log("delete request");
+
+  try {
+    const decoded = jwt.verify(token, secret);
+    const user_uuid = decoded.uuid;
+
+    const card = await Subtask.deleteOne({
       uuid: req.body.uuid,
       user_uuid: user_uuid,
     });
