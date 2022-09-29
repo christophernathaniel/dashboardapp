@@ -63,7 +63,7 @@ const Subtask = (props) => {
           subTask?.map((item, index) => (
             <div key={index} class="label">
               <span className="name">{item.title && item.title}</span>
-              <div className="name">{item.content && item.content}</div>
+              <div className="content">{item.content && item.content}</div>
               <div
                 className="delete-label"
                 onClick={() => {
