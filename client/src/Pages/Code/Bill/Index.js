@@ -202,14 +202,14 @@ const Bill = (props) => {
           <table className="table">
             <thead>
               <tr>
-                <th scope="col">Featured</th>
-                <th scope="col">Name</th>
+                <th>Featured</th>
+                <th>Name</th>
 
-                <th scope="col">Category</th>
+                <th>Category</th>
 
-                <th scope="col">Active</th>
+                <th>Active</th>
 
-                <th scope="col">Options</th>
+                <th>Options</th>
               </tr>
             </thead>
             <tbody>
@@ -311,15 +311,15 @@ const Bill = (props) => {
                 ))}
 
               <tr className="floatingColumn">
-                <td scope="col"></td>
-                <td scope="col"></td>
-                <td scope="col">{totalPerMonth && <>£{totalPerMonth}</>}</td>
-                <td scope="col">{totalRemaining && <>£{totalRemaining}</>}</td>
-                <td scope="col"></td>
-                <td scope="col"></td>
-                <td scope="col"></td>
-                <td scope="col"></td>
-                <td scope="col"></td>
+                <td></td>
+                <td></td>
+                <td>{totalPerMonth && <>£{totalPerMonth}</>}</td>
+                <td>{totalRemaining && <>£{totalRemaining}</>}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
               </tr>
             </tbody>
           </table>

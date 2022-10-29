@@ -58,7 +58,7 @@ const Subtask = (props) => {
 
   return (
     <div className="editModelFooter">
-      <div class="group">
+      <div className="group">
         {subTask &&
           subTask?.map((item, index) => (
             <div key={index} class="label">
